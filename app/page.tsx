@@ -10,6 +10,7 @@ import {
   Award, Crown, Zap, Clock, BarChart3, Activity, Shield, X,
   ChevronLeft, Menu, Camera, Plus
 } from "lucide-react";
+import { AuthGuard } from "@/components/auth-guard";
 
 var DARK = {
   nv: "#0A1628", db: "#0F2847", el: "#00E5A0", go: "#FFD700",
@@ -691,6 +692,7 @@ export default function App() {
   var titles = {team:"Team Leaderboard",individual:sel||"Select Advisor",funnel:"Funnel",combos:"Winning Combos",trends:"Trends",testimonials:"Testimonials"};
 
   return (
+    <AuthGuard>
     <div style={{display:"flex",minHeight:"100vh",background:C.nv,fontFamily:"system-ui,sans-serif",color:C.wh}}>
       {bkPop&&<BkPopup custs={bkPop} onClose={function(){setBkPop(null)}}/>}
       <div style={{width:!mounted?180:sb?180:48,background:C.db,borderRight:"1px solid "+C.g7,padding:"10px 0",transition:"width 0.3s",flexShrink:0,overflow:"hidden",position:"relative",zIndex:sb?200:1,height:"auto",boxShadow:"none"}}>
@@ -862,5 +864,6 @@ export default function App() {
       </div>
       <style>{"*{box-sizing:border-box;margin:0;padding:0}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:"+C.nv+"}::-webkit-scrollbar-thumb{background:"+C.g6+";border-radius:2px}select option{background:"+C.nv+";color:"+C.wh+"}body{background:"+C.nv+"}"}</style>
     </div>
+    </AuthGuard>
   );
 }
