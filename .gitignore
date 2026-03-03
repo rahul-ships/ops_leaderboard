@@ -10,6 +10,6 @@ node_modules/
 .DS_Store
 .vercel
 
-# CSV data files
-data/deals.csv
+# CSV data files (allow data/deals.csv for deployment, but ignore other CSVs)
 *.csv
+!data/deals.csv
