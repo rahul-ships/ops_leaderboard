@@ -701,6 +701,11 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
             </button>
           );
         })}
+        <div style={{borderTop:"1px solid "+C.g7,margin:"12px 0"}}/>
+        <a href="/deals-dashboard" style={{display:"flex",alignItems:"center",gap:9,padding:sb?"8px 12px":"8px 12px",background:"transparent",borderLeft:"3px solid transparent",textDecoration:"none",cursor:"pointer",width:"100%"}}>
+          <Target size={15} color={C.pu}/>
+          {sb&&<span style={{fontSize:12,fontWeight:400,color:C.pu}}>Deals Dashboard</span>}
+        </a>
       </div>
       <div style={{flex:1,overflow:"auto",padding:"14px 12px"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:14,flexWrap:"wrap",gap:8}}>

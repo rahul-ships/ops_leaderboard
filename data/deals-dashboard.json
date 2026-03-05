@@ -1,0 +1,1371 @@
+{
+  "deals": [
+    {
+      "id": "zcrm_389965000013396004",
+      "name": "Abhay Kumar Mudgal",
+      "stage": "Yet To Start",
+      "ghb_owner": "Unassigned",
+      "market_advisor": "Unassigned",
+      "priority": "Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000021574019",
+      "name": "Ankit Hurkat",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch3.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000022611443",
+      "name": "Sugam Anand",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch3.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000024145412",
+      "name": "Pushanjeet Mishra",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch3.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000024211041",
+      "name": "Ayush",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Ashish",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch3.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000024651510",
+      "name": "Sowmya",
+      "stage": "Site Visit Scheduled",
+      "ghb_owner": "Unassigned",
+      "market_advisor": "Unassigned",
+      "priority": "Propsoch3.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000024862241",
+      "name": "Abhirup Ganguly",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch3.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000025240386",
+      "name": "Yash Yash",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch3.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000025648840",
+      "name": "Aditi Dixit",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch3.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000026590886",
+      "name": "Meeth",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Ashish",
+      "market_advisor": "Prashant",
+      "priority": "Propsoch3.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000029002562",
+      "name": "Himanshu",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch3.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000029014947",
+      "name": "Nipun Gupta",
+      "stage": "Site Visit Scheduled",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000029119337",
+      "name": "Unnati Deep",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000029411213",
+      "name": "Dushyant Singh",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000029519490",
+      "name": "Chandramouleswar Reddy",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000029632354",
+      "name": "Kumar Piyush",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000029664223",
+      "name": "Siva Prasad",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000030089330",
+      "name": "Rahul VERMA",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000030115058",
+      "name": "Pulkit Chhabra",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000030184206",
+      "name": "Divya Mahajan",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000030185748",
+      "name": "Ved Prabhu",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000030201364",
+      "name": "Ashok M D",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000030206032",
+      "name": "Shivani Anand",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000030402211",
+      "name": "Arundhati Menon",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000030575235",
+      "name": "Divya Motwani",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000030968033",
+      "name": "Mayank agarwal",
+      "stage": "Discovery Call Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031078369",
+      "name": "Vishal Kumar",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031079708",
+      "name": "Prasanth Movva",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031081061",
+      "name": "Ashishtest no",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Ashish",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031239187",
+      "name": "Anshu Pandey",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031239285",
+      "name": "Himanshu",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031312066",
+      "name": "SAURABH BAKSHI",
+      "stage": "Yet To Start",
+      "ghb_owner": "Ashish",
+      "market_advisor": "Unassigned",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031518209",
+      "name": "Pralhad Ayachit",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031636236",
+      "name": "Saurabh Jain",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031681088",
+      "name": "Sanyam Jain",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031886452",
+      "name": "Pramit Dalal",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031917347",
+      "name": "Samridh Amla",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031978004",
+      "name": "Sanjay Sundaresan",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031980117",
+      "name": "Rohan Sinha",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031980374",
+      "name": "Akhil Mathur",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000031991189",
+      "name": "Vandana Garg",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032279187",
+      "name": "Tarun Jadhwani",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": true
+    },
+    {
+      "id": "zcrm_389965000032281785",
+      "name": "Gaurang Shukla",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032282757",
+      "name": "Chetan Singh",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032284718",
+      "name": "Sai Narayan",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032306955",
+      "name": "Lakshmi Vijayakumar",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032307037",
+      "name": "Vysakh Madhavan",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032493016",
+      "name": "Somsubhra Chaudhuri",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032591404",
+      "name": "Neeraj Goel",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032674160",
+      "name": "Taran.kaur3",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032674775",
+      "name": "Sneha Sethia",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032778635",
+      "name": "Shivam Bhagat",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032781240",
+      "name": "Alok Choudhari",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032892875",
+      "name": "Abhinav Bansal",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032901569",
+      "name": "Abhinav Abhinav",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032906481",
+      "name": "Monika Kumari",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032908572",
+      "name": "Bhavna Chawla",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032914767",
+      "name": "Bharath Jain",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032921392",
+      "name": "Anand",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000032992130",
+      "name": "Anshul Agarwal",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033005223",
+      "name": "Dhananjay Patki",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033009004",
+      "name": "Mohit Kukkar",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033015018",
+      "name": "Anubhav Arora",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033036582",
+      "name": "Abhinav Gupta",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033061431",
+      "name": "Kaustav Ray",
+      "stage": "Deep Dive Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033073294",
+      "name": "Himanshu Gupta",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033150001",
+      "name": "Naman and",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033201206",
+      "name": "Navin Kumar",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033273729",
+      "name": "Sheetal Bablani",
+      "stage": "Site Visit Scheduled",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033287189",
+      "name": "Ravi Chetia",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033333297",
+      "name": "Avinash Deepak",
+      "stage": "Discovery Call Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033374381",
+      "name": "Mohit Agarwal",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033378341",
+      "name": "Vandana rao",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033384070",
+      "name": "Sandeep Singh",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033386138",
+      "name": "Saravanan Rangarajan",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033472339",
+      "name": "Tarun",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033476564",
+      "name": "Raahi Singh",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033479041",
+      "name": "Aniket Agrawal",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033479337",
+      "name": "Pankaj Gupta",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033479846",
+      "name": "Kanishka Vijayakumar",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033657001",
+      "name": "Mumbai Testing",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033715915",
+      "name": "Jai Mishra",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033723546",
+      "name": "Nidhin Radhakrishnan",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033724523",
+      "name": "Nisanth KV",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033726472",
+      "name": "Ankur Agnihotri",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033726791",
+      "name": "Divyansh Sharma",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033733221",
+      "name": "Ritesh Jaiswal",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033734083",
+      "name": "Kumud Tirupati",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (A)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033734307",
+      "name": "Pavan Mannepalli",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 3",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033739415",
+      "name": "Abhishek Agarwal",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033749224",
+      "name": "Shekhar Singh",
+      "stage": "Discovery Call Scheduled",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033751124",
+      "name": "Ayush chandra",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033806017",
+      "name": "Karundev Premraj",
+      "stage": "Discovery Call Scheduled",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033876209",
+      "name": "sushil amingad",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033878151",
+      "name": "Anjana Agarwal",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033884116",
+      "name": "Sirish Sai",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033965657",
+      "name": "Govind Gopinath",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000033986984",
+      "name": "Vishesh Verma",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034008487",
+      "name": "Rohan Prabhu",
+      "stage": "Discovery Call Scheduled",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034009499",
+      "name": "Veer Berry",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034019393",
+      "name": "Ajit Kumar",
+      "stage": "Discovery Call Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034032175",
+      "name": "Sanju Reddy",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034034373",
+      "name": "Naga Raju",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034074402",
+      "name": "Rajshree Dubey",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034075489",
+      "name": "Anurag Rai",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034081639",
+      "name": "Anuroop Pillalamarri",
+      "stage": "Site Visit Scheduled",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034092029",
+      "name": "Rahul Agarwal",
+      "stage": "Yet To Start",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch3.0,Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034128333",
+      "name": "Ajay Batra",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034133659",
+      "name": "Anshu Gupta",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034134441",
+      "name": "Debasish Khadanga",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034140166",
+      "name": "Abhilash Soman",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034143521",
+      "name": "Ranjit Radhakrishnan",
+      "stage": "Discovery Call Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034154013",
+      "name": "Sanchit Jain",
+      "stage": "Yet To Start",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034156178",
+      "name": "Lalita Tripathi",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034173997",
+      "name": "Pavan",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034203167",
+      "name": "Adish Agarwal",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034260274",
+      "name": "Ankur Sahni",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034261370",
+      "name": "Satwik Kansal",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034263024",
+      "name": "Avadh Shah",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034267597",
+      "name": "Mayur",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (B),Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034268019",
+      "name": "Murugharaj kathirvel",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034268412",
+      "name": "Mamta Kumari",
+      "stage": "Discovery Call Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034275416",
+      "name": "Sid Kumar",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 2",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034275908",
+      "name": "Priyanka Goyal",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034303372",
+      "name": "Naveen Kumar",
+      "stage": "Discovery Call Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034307063",
+      "name": "Dinesh Ranka",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034331345",
+      "name": "Chinmay Kshatriya",
+      "stage": "Site Visit Done",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 0",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034349463",
+      "name": "Nagendra PC",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034401024",
+      "name": "Amit Kumar",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034409425",
+      "name": "Lakshmi Ji",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034409529",
+      "name": "Krishna Kolapkar",
+      "stage": "Discovery Call Scheduled",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034410836",
+      "name": "Vijay Shankar",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034411752",
+      "name": "Arun",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034411843",
+      "name": "Anoop Singh",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034417594",
+      "name": "Shipra Bhardwaj",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Hitesh",
+      "market_advisor": "Prajwal",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034513354",
+      "name": "Prateek",
+      "stage": "Yet To Start",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034566396",
+      "name": "Hansraj Das",
+      "stage": "Site Visit Scheduled",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034566602",
+      "name": "Dheeraj Kaushik",
+      "stage": "Discovery Call Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034566671",
+      "name": "Ayush Bansal",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034566769",
+      "name": "Aashish Sawhney",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034566880",
+      "name": "Samarth Kaushik",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034567020",
+      "name": "Gaurav Jindal",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rakul",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034572424",
+      "name": "Shreyas Kumar",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034573686",
+      "name": "Mehul Jain",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034582098",
+      "name": "Mukunda Aa",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034582277",
+      "name": "Srinidhi SP",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Raunak",
+      "market_advisor": "Aamir",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034583703",
+      "name": "Manohar Moorthy",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034610148",
+      "name": "Abhiram RS",
+      "stage": "Shortlisting Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034611082",
+      "name": "Shobhit Mehta",
+      "stage": "LongList Call Scheduled",
+      "ghb_owner": "Thanvi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    },
+    {
+      "id": "zcrm_389965000034680002",
+      "name": "VIKRAM KV",
+      "stage": "Discovery Call Done",
+      "ghb_owner": "Rashmi",
+      "market_advisor": "Rohan",
+      "priority": "Propsoch4.0,Priority 1 (B)",
+      "is_converted": false
+    }
+  ],
+  "expected_bookings": {
+    "ghb_owner": {
+      "Hitesh": 9.100000000000001,
+      "Rashmi": 10.500000000000002,
+      "Ashish": 0.6000000000000001,
+      "Raunak": 8.55,
+      "Thanvi": 3.7
+    },
+    "market_advisor": {
+      "Aamir": 8.75,
+      "Rohan": 9.65,
+      "Prajwal": 8.899999999999999,
+      "Rakul": 4.95,
+      "Prashant": 0.1
+    },
+    "total": 32.45
+  }
+}
