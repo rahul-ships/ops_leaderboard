@@ -666,12 +666,16 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
     var mxBk = c.length ? Math.max.apply(null, c.map(function(p){return p.bk})) : 1;
     var mxTst = c.length ? Math.max.apply(null, c.map(function(p){return p.tst || 0})) : 1;
     c.forEach(function(p){ p.score = calcScore(p.cr, p.bk, p.avgT, mxBk, p.tst, mxTst); });
-    c.sort(function(a,b){return sortDir==="desc"?(b[sortBy]||0)-(a[sortBy]||0):(a[sortBy]||0)-(b[sortBy]||0)});
+    var effectiveSort = (bkMode === "realtime" && sortBy === "score") ? "bk" : sortBy;
+    c.sort(function(a,b){return sortDir==="desc"?(b[effectiveSort]||0)-(a[effectiveSort]||0):(a[effectiveSort]||0)-(b[effectiveSort]||0)});
     return c;
-  }, [met,ft,sortBy,sortDir]);
+  }, [met,ft,sortBy,sortDir,bkMode]);
   var top3 = useMemo(function(){
-    return allP.slice().sort(function(a,b){return (b.score||0)-(a.score||0)}).slice(0,3);
-  }, [allP]);
+    return allP.slice().sort(function(a,b){
+      if (bkMode === "realtime") return (b.bk||0)-(a.bk||0);
+      return (b.score||0)-(a.score||0);
+    }).slice(0,3);
+  }, [allP, bkMode]);
   var fd = met.fd;
   var teamFun = useMemo(function(){return calcFunnel(fd)}, [fd]);
   var combos = useMemo(function(){return calcCombos(fd)}, [fd]);
