@@ -66,16 +66,21 @@ export default function DealsDashboardClient({ initialData }: { initialData: Das
   const [modalDeals, setModalDeals] = useState<{ name: string; stage?: string }[]>([]);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  // Initialize bookedDeals from server data
+  // Fetch bookings from API on mount
   useEffect(() => {
-    const booked = new Set<string>();
-    initialData.deals.forEach(deal => {
-      if (deal.is_manually_booked) {
-        booked.add(deal.id);
+    const fetchBookings = async () => {
+      try {
+        const response = await fetch('/api/bookings/toggle');
+        const data = await response.json();
+        if (data.success && data.bookings) {
+          setBookedDeals(new Set(data.bookings));
+        }
+      } catch (err) {
+        console.error('Failed to load bookings:', err);
       }
-    });
-    setBookedDeals(booked);
-  }, [initialData]);
+    };
+    fetchBookings();
+  }, []);
 
   const allDeals = initialData.deals;
 

@@ -1,27 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { kv } from '@vercel/kv';
 
-interface Deal {
-  id: string;
-  name: string;
-  stage: string;
-  ghb_owner: string;
-  market_advisor: string;
-  priority: string;
-  is_converted: boolean;
-  is_live?: boolean;
-  is_manually_booked?: boolean;
-}
-
-interface DashboardData {
-  deals: Deal[];
-  expected_bookings: {
-    ghb_owner: Record<string, number>;
-    market_advisor: Record<string, number>;
-    total: number;
-  };
-}
+const BOOKINGS_KEY = 'manual_bookings';
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,47 +16,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Read JSON file with retry logic
-    const filePath = join(process.cwd(), 'data', 'deals-dashboard.json');
-    let data: DashboardData;
-    let retries = 3;
-
-    while (retries > 0) {
-      try {
-        const raw = readFileSync(filePath, 'utf-8');
-        data = JSON.parse(raw);
-        break;
-      } catch (err) {
-        retries--;
-        if (retries === 0) {
-          console.error('[Bookings API] Failed to read file after retries:', err);
-          return NextResponse.json(
-            { success: false, error: 'Failed to read data file' },
-            { status: 500 }
-          );
-        }
-        // Exponential backoff: 100ms, 200ms, 300ms
-        await new Promise(r => setTimeout(r, 100 * (4 - retries)));
+    // 3. Get current bookings from KV
+    let bookings: string[] = [];
+    try {
+      const stored = await kv.get<string[]>(BOOKINGS_KEY);
+      if (stored) {
+        bookings = stored;
       }
-    }
-
-    // 4. Find and update deal
-    const deal = data.deals.find(d => d.id === dealId);
-    if (!deal) {
+    } catch (err) {
+      console.error('[Bookings API] Failed to read from KV:', err);
       return NextResponse.json(
-        { success: false, error: 'Deal not found' },
-        { status: 404 }
+        { success: false, error: 'Failed to read bookings data' },
+        { status: 500 }
       );
     }
 
+    // 4. Update bookings list
     const newBookedState = action === 'mark';
-    deal.is_manually_booked = newBookedState;
 
-    // 5. Write back to file atomically
+    if (newBookedState) {
+      // Add to bookings if not already present
+      if (!bookings.includes(dealId)) {
+        bookings.push(dealId);
+      }
+    } else {
+      // Remove from bookings
+      bookings = bookings.filter(id => id !== dealId);
+    }
+
+    // 5. Save back to KV
     try {
-      writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+      await kv.set(BOOKINGS_KEY, bookings);
     } catch (err) {
-      console.error('[Bookings API] Failed to write file:', err);
+      console.error('[Bookings API] Failed to write to KV:', err);
       return NextResponse.json(
         { success: false, error: 'Failed to save booking' },
         { status: 500 }
@@ -95,6 +67,20 @@ export async function POST(request: NextRequest) {
     console.error('[Bookings API] Error:', error);
     return NextResponse.json(
       { success: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+// GET endpoint to fetch all bookings
+export async function GET() {
+  try {
+    const bookings = await kv.get<string[]>(BOOKINGS_KEY) || [];
+    return NextResponse.json({ success: true, bookings });
+  } catch (error) {
+    console.error('[Bookings API] Error fetching bookings:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to fetch bookings' },
       { status: 500 }
     );
   }

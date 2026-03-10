@@ -8,7 +8,8 @@
       "market_advisor": "Joel",
       "priority": "Priority 3",
       "is_converted": true,
-      "is_live": false
+      "is_live": false,
+      "is_manually_booked": true
     },
     {
       "id": "priyadarshini_-_eoi_rashmi",
@@ -2688,7 +2689,8 @@
       "market_advisor": "Samyuktha",
       "priority": "Priority 3",
       "is_converted": false,
-      "is_live": true
+      "is_live": true,
+      "is_manually_booked": true
     },
     {
       "id": "sandeep_singh_raunak",
