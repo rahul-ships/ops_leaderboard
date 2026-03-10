@@ -4,9 +4,10 @@ import { Redis } from '@upstash/redis';
 const BOOKINGS_KEY = 'manual_bookings';
 
 // Initialize Redis client
+// Support both naming conventions (KV_* for Vercel, UPSTASH_* for local)
 const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN!,
 });
 
 export async function POST(request: NextRequest) {
