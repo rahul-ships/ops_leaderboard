@@ -41,7 +41,6 @@ const deals = records.map((row, index) => {
     'Shortlisting Done',
     'Site Visit Scheduled',
     'Site Visit Done',
-    'EOI Submitted',
     'Deep Dive Done',
     'POM Report Shared'
   ];
