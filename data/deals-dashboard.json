@@ -5051,16 +5051,6 @@
       "is_live": false
     },
     {
-      "id": "deal_505_oj_-_eoi",
-      "name": "Oj - EOI",
-      "stage": "EOI Submitted",
-      "ghb_owner": "Unassigned",
-      "market_advisor": "Unassigned",
-      "priority": "Priority 3",
-      "is_converted": false,
-      "is_live": false
-    },
-    {
       "id": "deal_506_sourav_madakashira",
       "name": "Sourav Madakashira",
       "stage": "Currently On Hold",
@@ -6309,16 +6299,6 @@
       "priority": "Priority 3",
       "is_converted": false,
       "is_live": false
-    },
-    {
-      "id": "deal_631_sowmya",
-      "name": "Sowmya",
-      "stage": "Site Visit Scheduled",
-      "ghb_owner": "Unassigned",
-      "market_advisor": "Unassigned",
-      "priority": "Priority 3",
-      "is_converted": false,
-      "is_live": true
     },
     {
       "id": "deal_632_jagadeesh",
@@ -9531,16 +9511,6 @@
       "is_live": false
     },
     {
-      "id": "deal_953_sumit",
-      "name": "Sumit",
-      "stage": "Closed - Dropped",
-      "ghb_owner": "Unassigned",
-      "market_advisor": "Jatin",
-      "priority": "Priority 3",
-      "is_converted": false,
-      "is_live": false
-    },
-    {
       "id": "deal_954_uday_bomma",
       "name": "Uday Bomma",
       "stage": "Closed - Dropped",
@@ -9811,16 +9781,6 @@
       "is_live": false
     },
     {
-      "id": "deal_981_abhay_kumar_mudgal",
-      "name": "Abhay Kumar Mudgal",
-      "stage": "Yet To Start",
-      "ghb_owner": "Unassigned",
-      "market_advisor": "Stuti",
-      "priority": "Priority 3",
-      "is_converted": false,
-      "is_live": true
-    },
-    {
       "id": "deal_982_shakti_singh",
       "name": "Shakti Singh",
       "stage": "Closed - Dropped",
@@ -10056,9 +10016,8 @@
       "Raunak": 0.7999999999999999,
       "Hitesh": 0.30000000000000004,
       "Joel": 2.3000000000000007,
-      "Sindhu": 1.3,
-      "Stuti": 0.1
+      "Sindhu": 1.3
     },
-    "total": 15.59999999999996
+    "total": 15.399999999999961
   }
 }

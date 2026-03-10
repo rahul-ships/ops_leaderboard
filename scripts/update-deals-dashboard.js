@@ -62,7 +62,7 @@ const deals = records.map((row, index) => {
     is_converted: isConverted,
     is_live: isLive
   };
-}).filter(Boolean);
+}).filter(deal => deal && deal.ghb_owner && deal.ghb_owner !== 'Unassigned');
 
 console.log(`Converted ${deals.length} deals`);
 
