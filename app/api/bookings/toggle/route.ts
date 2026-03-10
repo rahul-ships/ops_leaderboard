@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 
 const BOOKINGS_KEY = 'manual_bookings';
+
+// Initialize Redis client
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,15 +22,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Get current bookings from KV
+    // 3. Get current bookings from Redis
     let bookings: string[] = [];
     try {
-      const stored = await kv.get<string[]>(BOOKINGS_KEY);
+      const stored = await redis.get<string[]>(BOOKINGS_KEY);
       if (stored) {
         bookings = stored;
       }
     } catch (err) {
-      console.error('[Bookings API] Failed to read from KV:', err);
+      console.error('[Bookings API] Failed to read from Redis:', err);
       return NextResponse.json(
         { success: false, error: 'Failed to read bookings data' },
         { status: 500 }
@@ -44,11 +50,11 @@ export async function POST(request: NextRequest) {
       bookings = bookings.filter(id => id !== dealId);
     }
 
-    // 5. Save back to KV
+    // 5. Save back to Redis
     try {
-      await kv.set(BOOKINGS_KEY, bookings);
+      await redis.set(BOOKINGS_KEY, bookings);
     } catch (err) {
-      console.error('[Bookings API] Failed to write to KV:', err);
+      console.error('[Bookings API] Failed to write to Redis:', err);
       return NextResponse.json(
         { success: false, error: 'Failed to save booking' },
         { status: 500 }
@@ -75,7 +81,7 @@ export async function POST(request: NextRequest) {
 // GET endpoint to fetch all bookings
 export async function GET() {
   try {
-    const bookings = await kv.get<string[]>(BOOKINGS_KEY) || [];
+    const bookings = await redis.get<string[]>(BOOKINGS_KEY) || [];
     return NextResponse.json({ success: true, bookings });
   } catch (error) {
     console.error('[Bookings API] Error fetching bookings:', error);
