@@ -14,6 +14,7 @@ interface Deal {
   priority: string;
   is_converted: boolean;
   is_live?: boolean;
+  is_manually_booked?: boolean;
 }
 
 interface DashboardData {
@@ -63,16 +64,18 @@ export default function DealsDashboardClient({ initialData }: { initialData: Das
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [modalDeals, setModalDeals] = useState<{ name: string; stage?: string }[]>([]);
+  const [isUpdating, setIsUpdating] = useState(false);
 
+  // Initialize bookedDeals from server data
   useEffect(() => {
-    const stored = localStorage.getItem("ghb_bookings");
-    if (stored) setBookedDeals(new Set(JSON.parse(stored)));
-  }, []);
-
-  const saveBookings = useCallback((newSet: Set<string>) => {
-    localStorage.setItem("ghb_bookings", JSON.stringify(Array.from(newSet)));
-    setBookedDeals(newSet);
-  }, []);
+    const booked = new Set<string>();
+    initialData.deals.forEach(deal => {
+      if (deal.is_manually_booked) {
+        booked.add(deal.id);
+      }
+    });
+    setBookedDeals(booked);
+  }, [initialData]);
 
   const allDeals = initialData.deals;
 
@@ -147,21 +150,74 @@ export default function DealsDashboardClient({ initialData }: { initialData: Das
     return { p0: p0e, p1a: p1ae, p1b: p1be, p2: p2e, p3: p3e, total: p0e + p1ae + p1be + p2e + p3e };
   }, [ghbData]);
 
-  const handleMarkBooked = () => {
+  const handleMarkBooked = async () => {
     if (!dropdownValue.trim()) { alert("Please select a client."); return; }
     const deal = allDeals.find((d) => `${d.name} - ${d.stage} - ${d.ghb_owner}` === dropdownValue);
     if (!deal) { alert("Invalid selection."); return; }
     if (bookedDeals.has(deal.id)) { alert("Already booked."); return; }
-    const ns = new Set(bookedDeals);
-    ns.add(deal.id);
-    saveBookings(ns);
-    setDropdownValue("");
+
+    setIsUpdating(true);
+
+    // Optimistic update
+    const newSet = new Set(bookedDeals);
+    newSet.add(deal.id);
+    setBookedDeals(newSet);
+    // Keep the deal name visible in the dropdown after booking
+
+    try {
+      const response = await fetch('/api/bookings/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dealId: deal.id, action: 'mark' })
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        // Rollback on error
+        setBookedDeals(bookedDeals);
+        alert(`Failed to mark booking: ${data.error || 'Unknown error'}`);
+      }
+    } catch (err) {
+      // Rollback on network error
+      setBookedDeals(bookedDeals);
+      alert('Network error. Please try again.');
+      console.error('Error marking booking:', err);
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
-  const removeBooking = (dealId: string) => {
-    const ns = new Set(bookedDeals);
-    ns.delete(dealId);
-    saveBookings(ns);
+  const removeBooking = async (dealId: string) => {
+    setIsUpdating(true);
+
+    // Optimistic update
+    const newSet = new Set(bookedDeals);
+    newSet.delete(dealId);
+    setBookedDeals(newSet);
+
+    try {
+      const response = await fetch('/api/bookings/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dealId, action: 'unmark' })
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        // Rollback on error
+        setBookedDeals(bookedDeals);
+        alert(`Failed to remove booking: ${data.error || 'Unknown error'}`);
+      }
+    } catch (err) {
+      // Rollback on network error
+      setBookedDeals(bookedDeals);
+      alert('Network error. Please try again.');
+      console.error('Error removing booking:', err);
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   const showDeals = (title: string, deals: { name: string; stage?: string }[]) => {
@@ -365,7 +421,9 @@ export default function DealsDashboardClient({ initialData }: { initialData: Das
                 ))}
               </datalist>
             </div>
-            <button onClick={handleMarkBooked} style={styles.markBookedBtn}>Mark as Booked</button>
+            <button onClick={handleMarkBooked} disabled={isUpdating} style={styles.markBookedBtn}>
+              {isUpdating ? 'Saving...' : 'Mark as Booked'}
+            </button>
           </div>
           {bookedDealsArray.length > 0 ? (
             <div>

@@ -66,6 +66,26 @@ const deals = records.map((row, index) => {
 
 console.log(`Converted ${deals.length} deals`);
 
+// Load existing manual bookings to preserve them
+const jsonPath = path.join(__dirname, '..', 'data', 'deals-dashboard.json');
+let existingManualBookings = new Set();
+try {
+  const existingData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+  existingData.deals.forEach(deal => {
+    if (deal.is_manually_booked) {
+      existingManualBookings.add(deal.id);
+    }
+  });
+  console.log(`Preserved ${existingManualBookings.size} existing manual bookings`);
+} catch (err) {
+  console.log('No existing bookings to preserve');
+}
+
+// Apply manual bookings to deals
+deals.forEach(deal => {
+  deal.is_manually_booked = existingManualBookings.has(deal.id);
+});
+
 // Calculate expected bookings
 const expectedBookings = {
   ghb_owner: {},
