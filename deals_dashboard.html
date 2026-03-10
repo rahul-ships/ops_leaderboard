@@ -1,4 +1,728 @@
-{
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Deals Dashboard - GHB Owner & Txn. Partner</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .table-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .table-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .advisor-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .count-cell {
+            text-align: center;
+            cursor: pointer;
+            color: #667eea;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .count-cell:hover {
+            background-color: #667eea;
+            color: white;
+            border-radius: 5px;
+            transform: scale(1.1);
+        }
+
+        .zero-count {
+            color: #ccc;
+            cursor: default;
+        }
+
+        .zero-count:hover {
+            background-color: transparent;
+            transform: none;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .close {
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            line-height: 1;
+        }
+
+        .close:hover {
+            transform: scale(1.2);
+        }
+
+        .modal-body {
+            padding: 25px;
+            max-height: calc(80vh - 100px);
+            overflow-y: auto;
+        }
+
+        .deal-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .deal-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .deal-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .deal-stage {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .deal-stage strong {
+            color: #667eea;
+        }
+
+        .no-deals {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            padding: 30px;
+        }
+
+        /* Scrollbar styling */
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+
+        /* Total Row Styling */
+        .total-row {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            border-top: 3px solid #667eea;
+        }
+
+        .total-row td {
+            padding: 15px 10px;
+            font-size: 1.05em;
+        }
+
+        .total-row:hover {
+            background-color: #e8e8e8;
+        }
+
+        /* Summary Card Styling */
+        .summary-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            color: white;
+        }
+
+        .summary-card h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .summary-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .summary-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .summary-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .summary-value.highlight {
+            font-size: 3em;
+            color: #ffd700;
+        }
+
+        /* Expected Bookings Column Highlight */
+        .expected-total-col {
+            background-color: #fff8dc;
+            font-weight: bold;
+        }
+
+        .expected-total-header {
+            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%) !important;
+        }
+
+        .forecast-table td {
+            text-align: center;
+        }
+
+        .forecast-table .advisor-name {
+            text-align: left;
+        }
+
+        /* Booking Management Styles */
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .booking-count {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .dropdown-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: flex-end;
+        }
+
+        .dropdown-group {
+            flex: 1;
+        }
+
+        .dropdown-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        #client-dropdown {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+
+        #client-dropdown:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .mark-booked-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .mark-booked-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .mark-booked-btn:active {
+            transform: translateY(0);
+        }
+
+        .booked-deals-list {
+            margin-top: 20px;
+        }
+
+        .booked-deals-list h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .booked-deals-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .booked-deals-table thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .booked-deals-table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .booked-deals-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .no-bookings {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .booking-table-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .booking-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .bookings-column {
+            background-color: #e8f4f8;
+            font-weight: 600;
+        }
+
+        .bookings-cell {
+            cursor: pointer;
+            color: #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .bookings-cell:hover {
+            background-color: #667eea !important;
+            color: white;
+            border-radius: 5px;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enhanced Deals Dashboard</h1>
+
+        <!-- Team-Level Summary Card -->
+        <div class="summary-card">
+            <h2>Team Expected Bookings Forecast</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-label">P0 Expected</div>
+                    <div class="summary-value" id="team-p0-expected">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">P1A Expected</div>
+                    <div class="summary-value" id="team-p1a-expected">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">P1B Expected</div>
+                    <div class="summary-value" id="team-p1b-expected">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">P2 Expected</div>
+                    <div class="summary-value" id="team-p2-expected">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">P3 Expected</div>
+                    <div class="summary-value" id="team-p3-expected">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">TOTAL EXPECTED BOOKINGS</div>
+                    <div class="summary-value highlight" id="team-total-expected">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Management Section -->
+        <div class="table-section">
+            <div class="booking-header">
+                <h2 class="table-title" style="margin-bottom: 0;">Booking Management</h2>
+                <div class="booking-count">
+                    <span id="total-bookings">0</span> / 150 Deals Booked
+                </div>
+            </div>
+
+            <div class="dropdown-section">
+                <div class="dropdown-group">
+                    <label for="client-dropdown">Select Client to Book</label>
+                    <input list="client-list" id="client-dropdown" placeholder="Search and select a client..." autocomplete="off">
+                    <datalist id="client-list">
+                    </datalist>
+                </div>
+                <button class="mark-booked-btn" id="mark-booked-btn">Mark as Booked</button>
+            </div>
+
+            <div class="booked-deals-list">
+                <h3>Booked Deals</h3>
+                <div id="booked-deals-container">
+                    <table class="booked-deals-table" id="booked-deals-table">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Stage</th>
+                                <th>GHB Owner</th>
+                                <th>Market Advisor</th>
+                                <th>Priority</th>
+                                <th style="width: 100px; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="booked-deals-tbody">
+                        </tbody>
+                    </table>
+                    <div id="no-bookings-message" class="no-bookings" style="display: none;">
+                        No deals booked yet. Select a client from the dropdown above to add bookings.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table 1: By GHB Deal Owner (Enhanced with Bookings column) -->
+        <div class="table-section">
+            <h2 class="table-title">Table 1: By GHB Deal Owner</h2>
+            <table id="ghb-table">
+                <thead>
+                    <tr>
+                        <th>Advisor Name</th>
+                        <th style="text-align: center;">Live Deals</th>
+                        <th class="bookings-column" style="text-align: center;">Bookings</th>
+                        <th style="text-align: center;">Priority 0</th>
+                        <th style="text-align: center;">Priority 1A</th>
+                        <th style="text-align: center;">Priority 1B</th>
+                        <th style="text-align: center;">Priority 2</th>
+                        <th style="text-align: center;">Priority 3</th>
+                    </tr>
+                </thead>
+                <tbody id="ghb-tbody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Table 2: By Txn. Partner (Enhanced with Bookings column) -->
+        <div class="table-section">
+            <h2 class="table-title">Table 2: By Txn. Partner (Market Advisor)</h2>
+            <table id="txn-table">
+                <thead>
+                    <tr>
+                        <th>Advisor Name</th>
+                        <th style="text-align: center;">Live Deals</th>
+                        <th class="bookings-column" style="text-align: center;">Bookings</th>
+                        <th style="text-align: center;">Priority 0</th>
+                        <th style="text-align: center;">Priority 1A</th>
+                        <th style="text-align: center;">Priority 1B</th>
+                        <th style="text-align: center;">Priority 2</th>
+                        <th style="text-align: center;">Priority 3</th>
+                    </tr>
+                </thead>
+                <tbody id="txn-tbody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Table 3: Stage-Based Analysis by Market Advisor -->
+        <div class="table-section">
+            <h2 class="table-title">Table 3: Stage-Based Analysis by Market Advisor (Txn. Partner)</h2>
+            <table id="stage-table">
+                <thead>
+                    <tr>
+                        <th>Market Advisor Name</th>
+                        <th style="text-align: center;">Site Visit Scheduled</th>
+                        <th style="text-align: center;">Site Visit Done</th>
+                        <th style="text-align: center;">Deep Dive Done</th>
+                    </tr>
+                </thead>
+                <tbody id="stage-tbody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Goal vs Actuals Charts Section -->
+        <div class="table-section">
+            <h2 class="table-title">Goal vs Actuals - Visual Analytics</h2>
+
+            <!-- Team Level Chart -->
+            <div style="margin-bottom: 40px;">
+                <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">Team-Level Performance</h3>
+                <div class="chart-container">
+                    <canvas id="team-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Individual Charts Grid -->
+            <div class="charts-grid">
+                <div>
+                    <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">By GHB Deal Owner</h3>
+                    <div class="chart-container">
+                        <canvas id="ghb-chart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">By Market Advisor</h3>
+                    <div class="chart-container">
+                        <canvas id="advisor-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forecast Table 1: By GHB Deal Owner -->
+        <div class="table-section">
+            <h2 class="table-title">Expected Bookings Forecast - By GHB Deal Owner</h2>
+            <table id="ghb-forecast-table" class="forecast-table">
+                <thead>
+                    <tr>
+                        <th>Advisor Name</th>
+                        <th style="text-align: center;">P0 Expected (×0.5)</th>
+                        <th style="text-align: center;">P1A Expected (×0.2)</th>
+                        <th style="text-align: center;">P1B Expected (×0.35)</th>
+                        <th style="text-align: center;">P2 Expected (×0.15)</th>
+                        <th style="text-align: center;">P3 Expected (×0.1)</th>
+                        <th class="expected-total-header" style="text-align: center;">Total Expected Bookings</th>
+                    </tr>
+                </thead>
+                <tbody id="ghb-forecast-tbody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Forecast Table 2: By Txn. Partner -->
+        <div class="table-section">
+            <h2 class="table-title">Expected Bookings Forecast - By Txn. Partner (Market Advisor)</h2>
+            <table id="txn-forecast-table" class="forecast-table">
+                <thead>
+                    <tr>
+                        <th>Advisor Name</th>
+                        <th style="text-align: center;">P0 Expected (×0.5)</th>
+                        <th style="text-align: center;">P1A Expected (×0.2)</th>
+                        <th style="text-align: center;">P1B Expected (×0.35)</th>
+                        <th style="text-align: center;">P2 Expected (×0.15)</th>
+                        <th style="text-align: center;">P3 Expected (×0.1)</th>
+                        <th class="expected-total-header" style="text-align: center;">Total Expected Bookings</th>
+                    </tr>
+                </thead>
+                <tbody id="txn-forecast-tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="dealModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load deals data from dashboard_data.json
+        const dashboardData = {
   "deals": [
     {
       "id": "deal_0_yadu_krishnan",
@@ -10069,3 +10793,677 @@
     "total": 18.499999999999993
   }
 }
+                }
+
+                data[advisor].live_deals++;
+                data[advisor].live_deals_list.push({name: deal.name, stage: deal.stage});
+
+                const priority = getPriorityCategory(deal.priority);
+                if (priority) {
+                    data[advisor][priority]++;
+                    data[advisor][priority + '_deals'].push({name: deal.name, stage: deal.stage});
+                }
+
+                if (bookedDeals.has(deal.id)) {
+                    data[advisor].bookings++;
+                    data[advisor].booked_deal_names.push(deal.name);
+                }
+            });
+
+            return data;
+        }
+
+        // Calculate stage-based data
+        function getStageData() {
+            const data = {};
+            const stageMapping = {
+                'Site Visit Scheduled': 'site_visit_scheduled',
+                'Site Visit Done': 'site_visit_done',
+                'Deep Dive Done': 'deep_dive_done'
+            };
+
+            allDeals.forEach(deal => {
+                const advisor = deal.market_advisor || 'Unassigned';
+                if (!data[advisor]) {
+                    data[advisor] = {
+                        site_visit_scheduled: [],
+                        site_visit_done: [],
+                        deep_dive_done: []
+                    };
+                }
+
+                const stageKey = stageMapping[deal.stage];
+                if (stageKey) {
+                    data[advisor][stageKey].push({
+                        name: deal.name,
+                        stage: deal.stage
+                    });
+                }
+            });
+
+            return data;
+        }
+
+        // Populate client dropdown
+        function populateClientDropdown() {
+            const datalist = document.getElementById('client-list');
+            datalist.innerHTML = '';
+
+            allDeals.forEach(deal => {
+                const option = document.createElement('option');
+                option.value = `${deal.name} - ${deal.stage} - ${deal.ghb_owner}`;
+                option.setAttribute('data-deal-id', deal.id);
+                datalist.appendChild(option);
+            });
+        }
+
+        // Render booked deals list
+        function renderBookedDealsList() {
+            const tbody = document.getElementById('booked-deals-tbody');
+            const noBookingsMsg = document.getElementById('no-bookings-message');
+            const bookedDealsTable = document.getElementById('booked-deals-table');
+
+            const bookedDealsArray = allDeals.filter(deal => bookedDeals.has(deal.id));
+
+            if (bookedDealsArray.length === 0) {
+                bookedDealsTable.style.display = 'none';
+                noBookingsMsg.style.display = 'block';
+            } else {
+                bookedDealsTable.style.display = 'table';
+                noBookingsMsg.style.display = 'none';
+
+                tbody.innerHTML = bookedDealsArray.map(deal => `
+                    <tr>
+                        <td class="advisor-name">${deal.name}</td>
+                        <td>${deal.stage}</td>
+                        <td>${deal.ghb_owner}</td>
+                        <td>${deal.market_advisor}</td>
+                        <td>${deal.priority}</td>
+                        <td style="text-align: center;">
+                            <button class="remove-btn" data-deal-id="${deal.id}">Remove</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.remove-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const dealId = e.target.dataset.dealId;
+                        bookedDeals.delete(dealId);
+                        saveBookings();
+                        renderBookedDealsList();
+                        updateAllTables();
+                        updateCharts();
+                        updateBookingsCount();
+                    });
+                });
+            }
+        }
+
+        // Update bookings count
+        function updateBookingsCount() {
+            document.getElementById('total-bookings').textContent = bookedDeals.size;
+        }
+
+        // Handle mark as booked button click
+        function handleMarkAsBooked() {
+            const dropdown = document.getElementById('client-dropdown');
+            const selectedValue = dropdown.value.trim();
+
+            if (!selectedValue) {
+                alert('Please select a client from the dropdown.');
+                return;
+            }
+
+            // Find the deal by matching the dropdown value format
+            const deal = allDeals.find(d =>
+                `${d.name} - ${d.stage} - ${d.ghb_owner}` === selectedValue
+            );
+
+            if (!deal) {
+                alert('Invalid selection. Please select a valid client from the dropdown.');
+                return;
+            }
+
+            if (bookedDeals.has(deal.id)) {
+                alert('This deal is already booked.');
+                return;
+            }
+
+            // Add to booked deals
+            bookedDeals.add(deal.id);
+            saveBookings();
+
+            // Clear dropdown
+            dropdown.value = '';
+
+            // Update UI
+            renderBookedDealsList();
+            updateAllTables();
+            updateCharts();
+            updateBookingsCount();
+        }
+
+        // Render GHB Owner table
+        function renderGHBTable() {
+            const tbody = document.getElementById('ghb-tbody');
+            const data = getGHBOwnerData();
+
+            let totalRow = {
+                live_deals: 0,
+                bookings: 0,
+                p0: 0,
+                p1a: 0,
+                p1b: 0,
+                p2: 0,
+                p3: 0
+            };
+
+            const rows = Object.entries(data)
+                .filter(([name]) => name !== 'Unassigned')
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([name, counts]) => {
+                    totalRow.live_deals += counts.live_deals;
+                    totalRow.bookings += counts.bookings;
+                    totalRow.p0 += counts.p0;
+                    totalRow.p1a += counts.p1a;
+                    totalRow.p1b += counts.p1b;
+                    totalRow.p2 += counts.p2;
+                    totalRow.p3 += counts.p3;
+
+                    return `
+                        <tr>
+                            <td class="advisor-name">${name}</td>
+                            <td class="count-cell"
+                                onclick='showDeals("${name}", "Live Deals", ${JSON.stringify(counts.live_deals_list)})'>
+                                ${counts.live_deals}
+                            </td>
+                            <td class="count-cell bookings-cell bookings-column"
+                                onclick='showBookedDeals("${name}", "GHB Owner", ${JSON.stringify(counts.booked_deal_names)})'>
+                                ${counts.bookings}
+                            </td>
+                            <td class="count-cell ${counts.p0 === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 0", ${JSON.stringify(counts.p0_deals)})'>
+                                ${counts.p0}
+                            </td>
+                            <td class="count-cell ${counts.p1a === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 1A", ${JSON.stringify(counts.p1a_deals)})'>
+                                ${counts.p1a}
+                            </td>
+                            <td class="count-cell ${counts.p1b === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 1B", ${JSON.stringify(counts.p1b_deals)})'>
+                                ${counts.p1b}
+                            </td>
+                            <td class="count-cell ${counts.p2 === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 2", ${JSON.stringify(counts.p2_deals)})'>
+                                ${counts.p2}
+                            </td>
+                            <td class="count-cell ${counts.p3 === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 3", ${JSON.stringify(counts.p3_deals)})'>
+                                ${counts.p3}
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+            tbody.innerHTML = rows + `
+                <tr class="total-row">
+                    <td class="advisor-name">Total</td>
+                    <td class="count-cell">${totalRow.live_deals}</td>
+                    <td class="count-cell bookings-column">${totalRow.bookings}</td>
+                    <td class="count-cell">${totalRow.p0}</td>
+                    <td class="count-cell">${totalRow.p1a}</td>
+                    <td class="count-cell">${totalRow.p1b}</td>
+                    <td class="count-cell">${totalRow.p2}</td>
+                    <td class="count-cell">${totalRow.p3}</td>
+                </tr>
+            `;
+        }
+
+        // Render Market Advisor table
+        function renderMarketAdvisorTable() {
+            const tbody = document.getElementById('txn-tbody');
+            const data = getMarketAdvisorData();
+
+            let totalRow = {
+                live_deals: 0,
+                bookings: 0,
+                p0: 0,
+                p1a: 0,
+                p1b: 0,
+                p2: 0,
+                p3: 0
+            };
+
+            const rows = Object.entries(data)
+                .filter(([name]) => name !== 'Unassigned')
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([name, counts]) => {
+                    totalRow.live_deals += counts.live_deals;
+                    totalRow.bookings += counts.bookings;
+                    totalRow.p0 += counts.p0;
+                    totalRow.p1a += counts.p1a;
+                    totalRow.p1b += counts.p1b;
+                    totalRow.p2 += counts.p2;
+                    totalRow.p3 += counts.p3;
+
+                    return `
+                        <tr>
+                            <td class="advisor-name">${name}</td>
+                            <td class="count-cell"
+                                onclick='showDeals("${name}", "Live Deals", ${JSON.stringify(counts.live_deals_list)})'>
+                                ${counts.live_deals}
+                            </td>
+                            <td class="count-cell bookings-cell bookings-column"
+                                onclick='showBookedDeals("${name}", "Market Advisor", ${JSON.stringify(counts.booked_deal_names)})'>
+                                ${counts.bookings}
+                            </td>
+                            <td class="count-cell ${counts.p0 === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 0", ${JSON.stringify(counts.p0_deals)})'>
+                                ${counts.p0}
+                            </td>
+                            <td class="count-cell ${counts.p1a === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 1A", ${JSON.stringify(counts.p1a_deals)})'>
+                                ${counts.p1a}
+                            </td>
+                            <td class="count-cell ${counts.p1b === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 1B", ${JSON.stringify(counts.p1b_deals)})'>
+                                ${counts.p1b}
+                            </td>
+                            <td class="count-cell ${counts.p2 === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 2", ${JSON.stringify(counts.p2_deals)})'>
+                                ${counts.p2}
+                            </td>
+                            <td class="count-cell ${counts.p3 === 0 ? 'zero-count' : ''}"
+                                onclick='showDeals("${name}", "Priority 3", ${JSON.stringify(counts.p3_deals)})'>
+                                ${counts.p3}
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+            tbody.innerHTML = rows + `
+                <tr class="total-row">
+                    <td class="advisor-name">Total</td>
+                    <td class="count-cell">${totalRow.live_deals}</td>
+                    <td class="count-cell bookings-column">${totalRow.bookings}</td>
+                    <td class="count-cell">${totalRow.p0}</td>
+                    <td class="count-cell">${totalRow.p1a}</td>
+                    <td class="count-cell">${totalRow.p1b}</td>
+                    <td class="count-cell">${totalRow.p2}</td>
+                    <td class="count-cell">${totalRow.p3}</td>
+                </tr>
+            `;
+        }
+
+        // Render stage-based table
+        function renderStageTable() {
+            const tbody = document.getElementById('stage-tbody');
+            const data = getStageData();
+
+            const rows = Object.entries(data)
+                .filter(([name]) => name !== 'Unassigned')
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([name, stages]) => {
+                    return `
+                        <tr>
+                            <td class="advisor-name">${name}</td>
+                            <td class="count-cell ${stages.site_visit_scheduled.length === 0 ? 'zero-count' : ''}"
+                                ${stages.site_visit_scheduled.length > 0 ? `onclick='showDeals("${name}", "Site Visit Scheduled", ${JSON.stringify(stages.site_visit_scheduled)})'` : ''}>
+                                ${stages.site_visit_scheduled.length}
+                            </td>
+                            <td class="count-cell ${stages.site_visit_done.length === 0 ? 'zero-count' : ''}"
+                                ${stages.site_visit_done.length > 0 ? `onclick='showDeals("${name}", "Site Visit Done", ${JSON.stringify(stages.site_visit_done)})'` : ''}>
+                                ${stages.site_visit_done.length}
+                            </td>
+                            <td class="count-cell ${stages.deep_dive_done.length === 0 ? 'zero-count' : ''}"
+                                ${stages.deep_dive_done.length > 0 ? `onclick='showDeals("${name}", "Deep Dive Done", ${JSON.stringify(stages.deep_dive_done)})'` : ''}>
+                                ${stages.deep_dive_done.length}
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+            tbody.innerHTML = rows;
+        }
+
+        // Render forecast tables
+        function renderForecastTables() {
+            renderGHBForecastTable();
+            renderMarketAdvisorForecastTable();
+            renderTeamSummary();
+        }
+
+        function renderGHBForecastTable() {
+            const tbody = document.getElementById('ghb-forecast-tbody');
+            const data = getGHBOwnerData();
+
+            let teamTotals = { p0: 0, p1a: 0, p1b: 0, p2: 0, p3: 0, total: 0 };
+
+            const rows = Object.entries(data)
+                .filter(([name]) => name !== 'Unassigned')
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([name, counts]) => {
+                    const p0Expected = (counts.p0 * 0.5).toFixed(2);
+                    const p1aExpected = (counts.p1a * 0.2).toFixed(2);
+                    const p1bExpected = (counts.p1b * 0.35).toFixed(2);
+                    const p2Expected = (counts.p2 * 0.15).toFixed(2);
+                    const p3Expected = (counts.p3 * 0.1).toFixed(2);
+                    const totalExpected = (parseFloat(p0Expected) + parseFloat(p1aExpected) + parseFloat(p1bExpected) + parseFloat(p2Expected) + parseFloat(p3Expected)).toFixed(2);
+
+                    teamTotals.p0 += parseFloat(p0Expected);
+                    teamTotals.p1a += parseFloat(p1aExpected);
+                    teamTotals.p1b += parseFloat(p1bExpected);
+                    teamTotals.p2 += parseFloat(p2Expected);
+                    teamTotals.p3 += parseFloat(p3Expected);
+                    teamTotals.total += parseFloat(totalExpected);
+
+                    return `
+                        <tr>
+                            <td class="advisor-name">${name}</td>
+                            <td>${p0Expected}</td>
+                            <td>${p1aExpected}</td>
+                            <td>${p1bExpected}</td>
+                            <td>${p2Expected}</td>
+                            <td>${p3Expected}</td>
+                            <td class="expected-total-col">${totalExpected}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+            tbody.innerHTML = rows + `
+                <tr class="total-row">
+                    <td class="advisor-name">Total</td>
+                    <td>${teamTotals.p0.toFixed(2)}</td>
+                    <td>${teamTotals.p1a.toFixed(2)}</td>
+                    <td>${teamTotals.p1b.toFixed(2)}</td>
+                    <td>${teamTotals.p2.toFixed(2)}</td>
+                    <td>${teamTotals.p3.toFixed(2)}</td>
+                    <td class="expected-total-col">${teamTotals.total.toFixed(2)}</td>
+                </tr>
+            `;
+        }
+
+        function renderMarketAdvisorForecastTable() {
+            const tbody = document.getElementById('txn-forecast-tbody');
+            const data = getMarketAdvisorData();
+
+            let teamTotals = { p0: 0, p1a: 0, p1b: 0, p2: 0, p3: 0, total: 0 };
+
+            const rows = Object.entries(data)
+                .filter(([name]) => name !== 'Unassigned')
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([name, counts]) => {
+                    const p0Expected = (counts.p0 * 0.5).toFixed(2);
+                    const p1aExpected = (counts.p1a * 0.2).toFixed(2);
+                    const p1bExpected = (counts.p1b * 0.35).toFixed(2);
+                    const p2Expected = (counts.p2 * 0.15).toFixed(2);
+                    const p3Expected = (counts.p3 * 0.1).toFixed(2);
+                    const totalExpected = (parseFloat(p0Expected) + parseFloat(p1aExpected) + parseFloat(p1bExpected) + parseFloat(p2Expected) + parseFloat(p3Expected)).toFixed(2);
+
+                    teamTotals.p0 += parseFloat(p0Expected);
+                    teamTotals.p1a += parseFloat(p1aExpected);
+                    teamTotals.p1b += parseFloat(p1bExpected);
+                    teamTotals.p2 += parseFloat(p2Expected);
+                    teamTotals.p3 += parseFloat(p3Expected);
+                    teamTotals.total += parseFloat(totalExpected);
+
+                    return `
+                        <tr>
+                            <td class="advisor-name">${name}</td>
+                            <td>${p0Expected}</td>
+                            <td>${p1aExpected}</td>
+                            <td>${p1bExpected}</td>
+                            <td>${p2Expected}</td>
+                            <td>${p3Expected}</td>
+                            <td class="expected-total-col">${totalExpected}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+            tbody.innerHTML = rows + `
+                <tr class="total-row">
+                    <td class="advisor-name">Total</td>
+                    <td>${teamTotals.p0.toFixed(2)}</td>
+                    <td>${teamTotals.p1a.toFixed(2)}</td>
+                    <td>${teamTotals.p1b.toFixed(2)}</td>
+                    <td>${teamTotals.p2.toFixed(2)}</td>
+                    <td>${teamTotals.p3.toFixed(2)}</td>
+                    <td class="expected-total-col">${teamTotals.total.toFixed(2)}</td>
+                </tr>
+            `;
+        }
+
+        function renderTeamSummary() {
+            const data = getGHBOwnerData();
+
+            let teamTotals = { p0: 0, p1a: 0, p1b: 0, p2: 0, p3: 0 };
+
+            Object.entries(data)
+                .filter(([name]) => name !== 'Unassigned')
+                .forEach(([name, counts]) => {
+                    teamTotals.p0 += counts.p0;
+                    teamTotals.p1a += counts.p1a;
+                    teamTotals.p1b += counts.p1b;
+                    teamTotals.p2 += counts.p2;
+                    teamTotals.p3 += counts.p3;
+                });
+
+            const p0Expected = (teamTotals.p0 * 0.5).toFixed(2);
+            const p1aExpected = (teamTotals.p1a * 0.2).toFixed(2);
+            const p1bExpected = (teamTotals.p1b * 0.35).toFixed(2);
+            const p2Expected = (teamTotals.p2 * 0.15).toFixed(2);
+            const p3Expected = (teamTotals.p3 * 0.1).toFixed(2);
+            const totalExpected = (parseFloat(p0Expected) + parseFloat(p1aExpected) + parseFloat(p1bExpected) + parseFloat(p2Expected) + parseFloat(p3Expected)).toFixed(2);
+
+            document.getElementById('team-p0-expected').textContent = p0Expected;
+            document.getElementById('team-p1a-expected').textContent = p1aExpected;
+            document.getElementById('team-p1b-expected').textContent = p1bExpected;
+            document.getElementById('team-p2-expected').textContent = p2Expected;
+            document.getElementById('team-p3-expected').textContent = p3Expected;
+            document.getElementById('team-total-expected').textContent = totalExpected;
+        }
+
+        // Show booked deals in modal
+        function showBookedDeals(name, type, dealNames) {
+            if (dealNames.length === 0) return;
+
+            const modal = document.getElementById('dealModal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+
+            modalTitle.textContent = `${name} - Booked Deals (${dealNames.length})`;
+
+            modalBody.innerHTML = dealNames.map(dealName => `
+                <div class="deal-item">
+                    <div class="deal-name">${dealName}</div>
+                </div>
+            `).join('');
+
+            modal.style.display = 'block';
+        }
+
+        // Show deals in modal (existing functionality)
+        function showDeals(advisorName, stage, deals) {
+            const modal = document.getElementById('dealModal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+
+            modalTitle.textContent = `${advisorName} - ${stage} (${deals.length})`;
+
+            if (deals.length === 0) {
+                modalBody.innerHTML = '<div class="no-deals">No deals found</div>';
+            } else {
+                modalBody.innerHTML = deals.map(deal => `
+                    <div class="deal-item">
+                        <div class="deal-name">${deal.name}</div>
+                        <div class="deal-stage"><strong>Stage:</strong> ${deal.stage}</div>
+                    </div>
+                `).join('');
+            }
+
+            modal.style.display = 'block';
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            };
+
+            // Team-level chart
+            const teamCtx = document.getElementById('team-chart').getContext('2d');
+            teamChart = new Chart(teamCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Team Total'],
+                    datasets: [{
+                        label: 'Expected Bookings',
+                        data: [32.45],
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Actual Bookings',
+                        data: [0],
+                        backgroundColor: 'rgba(76, 175, 80, 0.8)',
+                        borderColor: 'rgba(76, 175, 80, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // GHB Owner chart
+            const ghbCtx = document.getElementById('ghb-chart').getContext('2d');
+            const ghbExpected = dashboardData.expected_bookings.ghb_owner;
+            ghbChart = new Chart(ghbCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(ghbExpected),
+                    datasets: [{
+                        label: 'Expected Bookings',
+                        data: Object.values(ghbExpected),
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Actual Bookings',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(76, 175, 80, 0.8)',
+                        borderColor: 'rgba(76, 175, 80, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // Market Advisor chart
+            const advisorCtx = document.getElementById('advisor-chart').getContext('2d');
+            const advisorExpected = dashboardData.expected_bookings.market_advisor;
+            advisorChart = new Chart(advisorCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(advisorExpected),
+                    datasets: [{
+                        label: 'Expected Bookings',
+                        data: Object.values(advisorExpected),
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Actual Bookings',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(76, 175, 80, 0.8)',
+                        borderColor: 'rgba(76, 175, 80, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: chartOptions
+            });
+        }
+
+        // Update charts with actual booking data
+        function updateCharts() {
+            const ghbData = getGHBOwnerData();
+            const advisorData = getMarketAdvisorData();
+
+            // Update team chart
+            const totalBookings = bookedDeals.size;
+            teamChart.data.datasets[1].data = [totalBookings];
+            teamChart.update();
+
+            // Update GHB Owner chart
+            const ghbExpected = dashboardData.expected_bookings.ghb_owner;
+            const ghbActuals = Object.keys(ghbExpected).map(owner =>
+                ghbData[owner] ? ghbData[owner].bookings : 0
+            );
+            ghbChart.data.datasets[1].data = ghbActuals;
+            ghbChart.update();
+
+            // Update Market Advisor chart
+            const advisorExpected = dashboardData.expected_bookings.market_advisor;
+            const advisorActuals = Object.keys(advisorExpected).map(advisor =>
+                advisorData[advisor] ? advisorData[advisor].bookings : 0
+            );
+            advisorChart.data.datasets[1].data = advisorActuals;
+            advisorChart.update();
+        }
+
+        // Update all tables
+        function updateAllTables() {
+            renderGHBTable();
+            renderMarketAdvisorTable();
+            renderStageTable();
+            renderForecastTables();
+        }
+
+        // Modal close functionality
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('dealModal').style.display = 'none';
+        };
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('dealModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBookings();
+            populateClientDropdown();
+            renderBookedDealsList();
+            updateAllTables();
+            initializeCharts();
+            updateCharts();
+            updateBookingsCount();
+
+            // Add event listener for mark as booked button
+            document.getElementById('mark-booked-btn').addEventListener('click', handleMarkAsBooked);
+
+            // Add enter key support for dropdown
+            document.getElementById('client-dropdown').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleMarkAsBooked();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

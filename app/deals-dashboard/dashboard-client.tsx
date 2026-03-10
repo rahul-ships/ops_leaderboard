@@ -13,6 +13,7 @@ interface Deal {
   market_advisor: string;
   priority: string;
   is_converted: boolean;
+  is_live?: boolean;
 }
 
 interface DashboardData {
@@ -77,16 +78,44 @@ export default function DealsDashboardClient({ initialData }: { initialData: Das
 
   const getAdvisorData = useCallback((field: "ghb_owner" | "market_advisor") => {
     const data: Record<string, AdvisorCounts> = {};
+
+    // Define live stages (fallback if is_live field not present in data)
+    const liveStages = [
+      'Yet To Start',
+      'Discovery Call Scheduled',
+      'Discovery Call Done',
+      'LongList Call Scheduled',
+      'Shortlisting Done',
+      'Site Visit Scheduled',
+      'Site Visit Done',
+      'EOI Submitted',
+      'Deep Dive Done',
+      'POM Report Shared'
+    ];
+
     allDeals.forEach((deal) => {
       const key = deal[field] || "Unassigned";
       if (!data[key]) data[key] = emptyAdvisorCounts();
-      data[key].live_deals++;
-      data[key].live_deals_list.push({ name: deal.name, stage: deal.stage });
-      const p = getPriorityCategory(deal.priority);
-      if (p) {
-        (data[key] as any)[p]++;
-        (data[key] as any)[p + "_deals"].push({ name: deal.name, stage: deal.stage });
+
+      // Check if deal is live (use is_live field if available, otherwise check stage)
+      const isLive = deal.is_live !== undefined
+        ? deal.is_live
+        : liveStages.includes(deal.stage);
+
+      // Only count live deals
+      if (isLive) {
+        data[key].live_deals++;
+        data[key].live_deals_list.push({ name: deal.name, stage: deal.stage });
+
+        // Priority categorization (only for live deals)
+        const p = getPriorityCategory(deal.priority);
+        if (p) {
+          (data[key] as any)[p]++;
+          (data[key] as any)[p + "_deals"].push({ name: deal.name, stage: deal.stage });
+        }
       }
+
+      // Bookings tracking (separate from live deals)
       if (bookedDeals.has(deal.id)) {
         data[key].bookings++;
         data[key].booked_deal_names.push(deal.name);
@@ -148,20 +177,24 @@ export default function DealsDashboardClient({ initialData }: { initialData: Das
   // Chart data
   const ghbChartData = useMemo(() => {
     const exp = initialData.expected_bookings.ghb_owner;
-    return Object.entries(exp).map(([name, expected]) => ({
-      name,
-      Expected: +expected.toFixed(2),
-      Actual: ghbData[name]?.bookings || 0
-    }));
+    return Object.entries(exp)
+      .filter(([name]) => ghbData[name]?.live_deals > 0)
+      .map(([name, expected]) => ({
+        name,
+        Expected: +expected.toFixed(2),
+        Actual: ghbData[name]?.bookings || 0
+      }));
   }, [initialData, ghbData]);
 
   const advisorChartData = useMemo(() => {
     const exp = initialData.expected_bookings.market_advisor;
-    return Object.entries(exp).map(([name, expected]) => ({
-      name,
-      Expected: +expected.toFixed(2),
-      Actual: advisorData[name]?.bookings || 0
-    }));
+    return Object.entries(exp)
+      .filter(([name]) => advisorData[name]?.live_deals > 0)
+      .map(([name, expected]) => ({
+        name,
+        Expected: +expected.toFixed(2),
+        Actual: advisorData[name]?.bookings || 0
+      }));
   }, [initialData, advisorData]);
 
   const teamChartData = useMemo(() => [
@@ -169,7 +202,9 @@ export default function DealsDashboardClient({ initialData }: { initialData: Das
   ], [initialData, bookedDeals.size]);
 
   function renderAdvisorTable(title: string, data: Record<string, AdvisorCounts>, roleLabel: string) {
-    const entries = Object.entries(data).filter(([n]) => n !== "Unassigned").sort(([a], [b]) => a.localeCompare(b));
+    const entries = Object.entries(data)
+      .filter(([n, c]) => n !== "Unassigned" && c.live_deals > 0)
+      .sort(([a], [b]) => a.localeCompare(b));
     const totals = { ld: 0, bk: 0, p0: 0, p1a: 0, p1b: 0, p2: 0, p3: 0 };
     entries.forEach(([, c]) => { totals.ld += c.live_deals; totals.bk += c.bookings; totals.p0 += c.p0; totals.p1a += c.p1a; totals.p1b += c.p1b; totals.p2 += c.p2; totals.p3 += c.p3; });
 
@@ -221,7 +256,9 @@ export default function DealsDashboardClient({ initialData }: { initialData: Das
   }
 
   function renderForecastTable(title: string, data: Record<string, AdvisorCounts>) {
-    const entries = Object.entries(data).filter(([n]) => n !== "Unassigned").sort(([a], [b]) => a.localeCompare(b));
+    const entries = Object.entries(data)
+      .filter(([n, c]) => n !== "Unassigned" && c.live_deals > 0)
+      .sort(([a], [b]) => a.localeCompare(b));
     const totals = { p0: 0, p1a: 0, p1b: 0, p2: 0, p3: 0, total: 0 };
     const rows = entries.map(([name, c]) => {
       const p0e = c.p0 * 0.5, p1ae = c.p1a * 0.2, p1be = c.p1b * 0.35, p2e = c.p2 * 0.15, p3e = c.p3 * 0.1;
@@ -388,7 +425,9 @@ export default function DealsDashboardClient({ initialData }: { initialData: Das
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(stageData).filter(([n]) => n !== "Unassigned").sort(([a], [b]) => a.localeCompare(b)).map(([name, s]) => (
+                {Object.entries(stageData)
+                  .filter(([n, s]) => n !== "Unassigned" && (s.site_visit_scheduled.length > 0 || s.site_visit_done.length > 0 || s.deep_dive_done.length > 0))
+                  .sort(([a], [b]) => a.localeCompare(b)).map(([name, s]) => (
                   <tr key={name} style={styles.tr}>
                     <td style={{ ...styles.td, fontWeight: 600 }}>{name}</td>
                     <td style={s.site_visit_scheduled.length === 0 ? styles.zeroCell : styles.countCell} onClick={() => showDeals(`${name} - Site Visit Scheduled (${s.site_visit_scheduled.length})`, s.site_visit_scheduled)}>{s.site_visit_scheduled.length}</td>
