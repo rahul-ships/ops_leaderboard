@@ -46,8 +46,8 @@ const deals = records.map((row, index) => {
   ];
   const isLive = liveStages.includes(stage);
 
-  // Generate a simple ID
-  const id = `deal_${index}_${dealName.toLowerCase().replace(/\s+/g, '_')}`;
+  // Generate a stable ID based on deal name and owner (independent of CSV order)
+  const id = `${dealName.toLowerCase().replace(/\s+/g, '_')}_${ghbOwner.toLowerCase().replace(/\s+/g, '_')}`;
 
   // Determine priority (if you have this data, otherwise default)
   const priority = 'Priority 3'; // You can enhance this based on your data
