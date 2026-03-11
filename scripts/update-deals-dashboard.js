@@ -49,8 +49,15 @@ const deals = records.map((row, index) => {
   // Generate a stable ID based on deal name and owner (independent of CSV order)
   const id = `${dealName.toLowerCase().replace(/\s+/g, '_')}_${ghbOwner.toLowerCase().replace(/\s+/g, '_')}`;
 
-  // Determine priority (if you have this data, otherwise default)
-  const priority = 'Priority 3'; // You can enhance this based on your data
+  // Extract priority from Tag column (e.g., "Propsoch4.0,Priority 1 (B)")
+  let priority = 'Priority 3'; // default
+  const tag = (row['Tag'] || '').trim();
+  if (tag) {
+    const priorityMatch = tag.match(/Priority\s+\d+\s*(\([AB]\))?/i);
+    if (priorityMatch) {
+      priority = priorityMatch[0];
+    }
+  }
 
   return {
     id,
@@ -185,7 +192,6 @@ Object.entries(stageStats)
   });
 
 // Also update the JSON file for the Next.js deals dashboard route
-const jsonPath = path.join(__dirname, '..', 'data', 'deals-dashboard.json');
 fs.writeFileSync(jsonPath, JSON.stringify(dashboardData, null, 2), 'utf-8');
 console.log(`\n✅ Also updated data/deals-dashboard.json for Next.js route`);
 console.log(`   You can view this at: http://localhost:3000/deals-dashboard`);
