@@ -597,13 +597,8 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
   var [deals,setDeals] = useState([]);
   var [view,setView] = useState("team");
   var [sel,setSel] = useState(null);
-  // Set default month to current month in YYYY-MM format
-  var [fm,setFM] = useState(() => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    return `${year}-${month}`;
-  });
+  // Default month will be set to the most recent month in useEffect
+  var [fm,setFM] = useState("all");
   var [fq,setFQ] = useState("all");
   var [fy,setFY] = useState("all");
   var [ft,setFT] = useState("all");
@@ -630,8 +625,9 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
       setDeals(d);
       var mos = d.map(function(x){return x.mo}).filter(Boolean);
       var sorted = Array.from(new Set(mos)).sort();
-      var prev = sorted.length >= 2 ? sorted[sorted.length - 2] : sorted[sorted.length - 1];
-      if(prev) setFM(prev);
+      // Default to the most recent month (last in sorted array)
+      var latest = sorted[sorted.length - 1];
+      if(latest) setFM(latest);
     }
   }, [initialData]);
 
