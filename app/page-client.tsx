@@ -597,7 +597,13 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
   var [deals,setDeals] = useState([]);
   var [view,setView] = useState("team");
   var [sel,setSel] = useState(null);
-  var [fm,setFM] = useState("all");
+  // Set default month to current month in YYYY-MM format
+  var [fm,setFM] = useState(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    return `${year}-${month}`;
+  });
   var [fq,setFQ] = useState("all");
   var [fy,setFY] = useState("all");
   var [ft,setFT] = useState("all");
