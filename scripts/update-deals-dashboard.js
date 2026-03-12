@@ -22,7 +22,7 @@ const deals = records.map((row, index) => {
 
   const stage = (row['GHB - Stage'] || 'Yet To Start').trim();
   const ghbOwner = (row['GHB Deal Owner'] || 'Unassigned').trim() || 'Unassigned';
-  const researchPartner = (row['Research Partner'] || 'Unassigned').trim() || 'Unassigned';
+  const transactionPartner = (row['Txn. Partner'] || 'Unassigned').trim() || 'Unassigned';
 
   // Determine if converted (Booking Done or later stages)
   const convertedStages = [
@@ -64,7 +64,7 @@ const deals = records.map((row, index) => {
     name: dealName,
     stage,
     ghb_owner: ghbOwner,
-    market_advisor: researchPartner,
+    market_advisor: transactionPartner,
     priority,
     is_converted: isConverted,
     is_live: isLive
