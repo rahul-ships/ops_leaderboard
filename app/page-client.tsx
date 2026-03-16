@@ -8,8 +8,10 @@ import {
 import {
   Trophy, TrendingUp, Users, User, Star, Flame, Target,
   Award, Crown, Zap, Clock, BarChart3, Activity, Shield, X,
-  ChevronLeft, Menu, Camera, Plus
+  ChevronLeft, Menu, Camera, Plus, Upload
 } from "lucide-react";
+import { CSVUploadButton } from "@/components/csv-upload-button";
+import { parseCSVFromText } from "@/lib/csv-parser-client";
 
 var DARK = {
   nv: "#0A1628", db: "#0F2847", el: "#00E5A0", go: "#FFD700",
@@ -611,6 +613,8 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
   var [bkMode,setBkMode] = useState("realtime");
   var [showPts,setShowPts] = useState(false);
   var [theme,setTheme] = useState("dark");
+  var [uploading,setUploading] = useState(false);
+  var fileInputRef = useRef(null);
   C = theme === "dark" ? DARK : LIGHT;
 
   useEffect(function(){
@@ -630,6 +634,30 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
       if(latest) setFM(latest);
     }
   }, [initialData]);
+
+  var handleCSVUpload = function(data) {
+    setUploading(true);
+    try {
+      // Parse using existing parseData function
+      var parsed = parseData(data.NM, data.RW);
+      setDeals(parsed);
+
+      // Reset filters to show all new data
+      setFM("all");
+      setFQ("all");
+      setFY("all");
+      setFT("all");
+      setSel(null);
+
+      // Extract new months and set default to most recent
+      var months = Array.from(new Set(parsed.filter(function(d){return d.mo}).map(function(d){return d.mo}))).sort();
+      if (months.length > 0) {
+        setFM(months[months.length - 1]);
+      }
+    } finally {
+      setUploading(false);
+    }
+  };
 
   var months = useMemo(function(){return Array.from(new Set(deals.map(function(d){return d.mo}).filter(Boolean))).sort()}, [deals]);
   var quarters = useMemo(function(){
@@ -718,6 +746,11 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
           );
         })}
         <div style={{borderTop:"1px solid "+C.g7,margin:"12px 0"}}/>
+        <input ref={fileInputRef} type="file" accept=".csv" style={{display:"none"}} onChange={async function(e){var file=e.target.files[0];if(!file)return;if(!file.name.endsWith(".csv")){alert("Please select a CSV file");return}if(file.size>10*1024*1024){alert("File size must be less than 10MB");return}setUploading(true);try{var text=await file.text();var result=parseCSVFromText(text);if(result.success&&result.data){handleCSVUpload(result.data);alert("Loaded "+result.stats.deals+" deals from "+result.stats.advisors+" advisors")}else{alert(result.error||"Failed to parse CSV")}}catch(err){alert("Error reading file: "+err.message)}finally{setUploading(false);if(fileInputRef.current)fileInputRef.current.value=""}}}/>
+        <button onClick={function(){if(fileInputRef.current)fileInputRef.current.click()}} disabled={uploading} style={{display:"flex",alignItems:"center",gap:9,padding:sb?"8px 12px":"8px 12px",background:"transparent",borderLeft:"3px solid transparent",borderRight:"none",borderTop:"none",borderBottom:"none",cursor:uploading?"not-allowed":"pointer",width:"100%",opacity:uploading?0.5:1}}>
+          <Upload size={15} color={C.el}/>
+          {sb&&<span style={{fontSize:12,fontWeight:400,color:C.el}}>{uploading?"Loading...":"Upload CSV"}</span>}
+        </button>
         <a href="/deals-dashboard" style={{display:"flex",alignItems:"center",gap:9,padding:sb?"8px 12px":"8px 12px",background:"transparent",borderLeft:"3px solid transparent",textDecoration:"none",cursor:"pointer",width:"100%"}}>
           <Target size={15} color={C.pu}/>
           {sb&&<span style={{fontSize:12,fontWeight:400,color:C.pu}}>Deals Dashboard</span>}
