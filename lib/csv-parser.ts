@@ -98,11 +98,33 @@ function parseAmount(amountStr: string): number {
  */
 export async function parseCSVFromContent(csvContent: string): Promise<{ NM: string[]; RW: any[][] }> {
   try {
+    // Remove BOM if present
+    if (csvContent.charCodeAt(0) === 0xFEFF) {
+      csvContent = csvContent.slice(1);
+    }
+
+    // Skip metadata lines - find the line with "Deal Name" (the actual header)
+    const lines = csvContent.split('\n');
+    let headerLineIndex = 0;
+
+    for (let i = 0; i < Math.min(10, lines.length); i++) {
+      if (lines[i].includes('Deal Name')) {
+        headerLineIndex = i;
+        break;
+      }
+    }
+
+    // Join lines from header onwards
+    const cleanedCSV = lines.slice(headerLineIndex).join('\n');
+
+    console.log(`[CSV Parser] Skipped ${headerLineIndex} metadata lines`);
+
     // Parse CSV with headers
-    const records = parse(csvContent, {
+    const records = parse(cleanedCSV, {
       columns: true,
       skip_empty_lines: true,
       trim: true,
+      relax_column_count: true, // Allow variable column counts
     });
 
     console.log(`[CSV Parser] Read ${records.length} records from CSV`);
