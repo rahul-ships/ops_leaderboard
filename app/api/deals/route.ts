@@ -1,11 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { parseCSVData } from '@/lib/csv-parser';
-import { writeFileSync, mkdirSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
+import { parseCSVData, parseCSVFromContent } from '@/lib/csv-parser';
+import { Redis } from '@upstash/redis';
+
+const CSV_DATA_KEY = 'deals_csv_content';
+
+// Initialize Redis client
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN!,
+});
 
 /**
  * GET /api/deals
- * Returns parsed deal data from CSV file
+ * Returns parsed deal data from Redis (production) or CSV file (local dev)
  *
  * Response format:
  * {
@@ -15,7 +22,30 @@ import { join, dirname } from 'path';
  */
 export async function GET() {
   try {
-    const { NM, RW } = await parseCSVData();
+    // Try to get CSV content from Redis first (for production/uploaded data)
+    let csvContent: string | null = null;
+    try {
+      csvContent = await redis.get<string>(CSV_DATA_KEY);
+    } catch (redisError) {
+      console.log('[CSV Parser] Redis not available, falling back to file:', redisError);
+    }
+
+    let NM: string[];
+    let RW: any[][];
+
+    if (csvContent) {
+      // Parse from Redis
+      console.log('[CSV Parser] Parsing from Redis');
+      const parsed = await parseCSVFromContent(csvContent);
+      NM = parsed.NM;
+      RW = parsed.RW;
+    } else {
+      // Fall back to file system (for local development)
+      console.log('[CSV Parser] Parsing from file system');
+      const parsed = await parseCSVData();
+      NM = parsed.NM;
+      RW = parsed.RW;
+    }
 
     return NextResponse.json({ NM, RW });
   } catch (error) {
@@ -86,22 +116,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Save to data/deals.csv
-    const csvPath = join(process.cwd(), 'data', 'deals.csv');
-
-    // Ensure data directory exists
-    const dataDir = dirname(csvPath);
-    if (!existsSync(dataDir)) {
-      mkdirSync(dataDir, { recursive: true });
-      console.log('[CSV Upload] Created data directory:', dataDir);
+    // Save to Redis (works in serverless environments)
+    try {
+      await redis.set(CSV_DATA_KEY, csvContent);
+      console.log('[CSV Upload] Successfully saved CSV to Redis');
+    } catch (redisError) {
+      console.error('[CSV Upload] Failed to save to Redis:', redisError);
+      return NextResponse.json(
+        { success: false, error: 'Failed to save CSV to storage' },
+        { status: 500 }
+      );
     }
 
-    writeFileSync(csvPath, csvContent, 'utf-8');
-
-    console.log('[CSV Upload] Successfully saved file to:', csvPath);
-
     // Parse the new data to validate and get stats
-    const { NM, RW } = await parseCSVData();
+    const { NM, RW } = await parseCSVFromContent(csvContent);
 
     return NextResponse.json({
       success: true,

@@ -93,18 +93,11 @@ function parseAmount(amountStr: string): number {
 }
 
 /**
- * Main function to parse CSV data from data/deals.csv
+ * Parse CSV data from text content
  * Returns object with NM (advisor names) and RW (deal records) arrays
  */
-export async function parseCSVData(): Promise<{ NM: string[]; RW: any[][] }> {
+export async function parseCSVFromContent(csvContent: string): Promise<{ NM: string[]; RW: any[][] }> {
   try {
-    // Read CSV file
-    const csvPath = join(process.cwd(), 'data', 'deals.csv');
-    const fileContent = readFileSync(csvPath, 'utf-8');
-
-    // CSV file has no metadata lines - header is on line 1
-    const csvContent = fileContent;
-
     // Parse CSV with headers
     const records = parse(csvContent, {
       columns: true,
@@ -211,5 +204,22 @@ export async function parseCSVData(): Promise<{ NM: string[]; RW: any[][] }> {
   } catch (error) {
     console.error('[CSV Parser] Error reading or parsing CSV:', error);
     throw new Error(`Failed to parse CSV: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+/**
+ * Main function to parse CSV data from data/deals.csv file
+ * Returns object with NM (advisor names) and RW (deal records) arrays
+ */
+export async function parseCSVData(): Promise<{ NM: string[]; RW: any[][] }> {
+  try {
+    // Read CSV file
+    const csvPath = join(process.cwd(), 'data', 'deals.csv');
+    const fileContent = readFileSync(csvPath, 'utf-8');
+
+    return parseCSVFromContent(fileContent);
+  } catch (error) {
+    console.error('[CSV Parser] Error reading CSV file:', error);
+    throw new Error(`Failed to read CSV file: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
