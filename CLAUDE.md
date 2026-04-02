@@ -40,12 +40,15 @@ pnpm lint             # Run ESLint
 
 ### Data Flow
 
-**Current Architecture (API-based):**
+**Current Architecture (Server-side with Upload):**
 
 1. **CSV File** (`data/deals.csv`) → Server-side parsing → **API Response** (`/api/deals`)
-2. **Client** fetches from API → **Dashboard** processes and displays data
+2. **Server-side render** (`app/page.tsx`) reads data directly → **Client** receives initial data
+3. **CSV Upload** → POST to `/api/deals` → Saves to server → Page reload → New data displayed
 
-**API Endpoint:** `/api/deals` (GET)
+**API Endpoints:**
+
+**GET `/api/deals`**
 - Reads CSV from `data/deals.csv`
 - Parses using `lib/csv-parser.ts`
 - Returns JSON with two arrays:
@@ -53,13 +56,31 @@ pnpm lint             # Run ESLint
   - `RW`: Array of deal records with format: `[clientName, statusCode, goIndex, rpIndex, tpIndex, createdDays, discoveryDays, shortlistDays, siteVisitDays, closureDays, bookingMonth, deepDiveDays, amount]`
 - Cached for 5 minutes (300 seconds) for performance
 
+**POST `/api/deals`**
+- Accepts `multipart/form-data` with CSV file
+- Validates file type (.csv), size (max 10MB), and content
+- Saves to `data/deals.csv` on server (creates data directory if needed)
+- Parses and returns stats (advisors count, deals count)
+- **All users see updated data** after page refresh
+
 **Dashboard Processing:**
-- Main dashboard (`app/page.tsx`) fetches data from `/api/deals` on mount
+- Main dashboard (`app/page.tsx`) uses server-side rendering to fetch data
+- Initial data loaded from `parseCSVData()` on server
+- Client receives pre-parsed data via `initialData` prop
 - Processes data to compute:
   - Advisor metrics (deals assigned, conversion rates, avg TAT)
   - Deal funnel stages (Discovery → Shortlist → Site Visit → Deep Dive → Booking)
   - Time-series trends and booking cohorts
   - Advisor-market partner combinations
+
+**CSV Upload Flow:**
+1. User clicks "Upload CSV" in sidebar
+2. Selects CSV file from device
+3. Client sends file via POST to `/api/deals`
+4. Server validates, saves to `data/deals.csv`
+5. Server parses and returns success with stats
+6. Client reloads page
+7. **All devices now see the new data** (server-side persistence)
 
 **Legacy Files (No Longer Used):**
 - `scripts/convert-csv-to-data.py` - Old Python conversion script (kept for reference)
@@ -108,31 +129,46 @@ TypeScript paths configured in `tsconfig.json`:
 
 ### Data Updates
 
-**New Workflow (API-based):**
+**Current Workflow (Upload to Server):**
 
-To update the leaderboard data, simply:
-1. Place your CSV file at `data/deals.csv`
-2. Refresh the browser (or wait up to 5 minutes for cache to clear)
-3. Done! No scripts to run, no rebuilding required.
+To update the leaderboard data:
+
+**Option 1: Upload via UI (Recommended for users)**
+1. Click "Upload CSV" button in the sidebar
+2. Select your CSV file
+3. Server validates, saves, and confirms with stats
+4. Page auto-reloads with new data
+5. **All users across all devices see the updated data immediately**
+
+**Option 2: Manual file replacement (For developers/deployment)**
+1. Place your CSV file at `data/deals.csv` on the server
+2. Restart dev server OR wait up to 5 minutes for cache to clear
+3. Done!
 
 **CSV Requirements:**
 - Must be in the expected format with all required columns (see DATA_UPDATE_GUIDE.md)
-- First 7 lines are skipped (treated as metadata)
 - Required columns: Deal Name, GHB - Stage, GHB Deal Owner, Research Partner, Txn. Partner, date fields, GHB Amount Paid
 - Date format: `DD/MM/YYYY HH:MM AM/PM`
 - Amount format: `₹ 2,499.00` (or plain numbers)
+- Max file size: 10MB
+- File extension: `.csv`
 
 **How It Works:**
-1. API route (`/api/deals`) reads CSV from `data/deals.csv`
-2. CSV parser (`lib/csv-parser.ts`) processes the file:
+1. **Upload:** POST endpoint (`/api/deals`) receives CSV file via FormData
+2. **Validation:** Checks file type, size, and content
+3. **Save:** Writes to `data/deals.csv` on server (creates directory if needed)
+4. **Parse:** CSV parser (`lib/csv-parser.ts`) processes the file:
    - Extracts unique advisor names into the `NM` array
    - Converts deal records into compact format with date offsets from base date (April 1, 2025)
    - Maps stage names to single-letter status codes
-3. Results are cached for 5 minutes on the server
-4. Client fetches JSON data and renders the dashboard
+5. **Response:** Returns success with advisor/deal counts
+6. **Reload:** Client refreshes to load new server-side data
+7. **Persistence:** All users now see the new data (server-side file updated)
 
 **Important Notes:**
-- The CSV file is gitignored and NOT committed to the repository
+- ✅ **Data persists on the server** - all users see the same data
+- ✅ **Multi-device sync** - upload from one device, see on all devices
+- The CSV file is tracked in git (not ignored) for deployment
 - Server-side cache revalidates every 5 minutes
 - For immediate updates during development, restart the dev server
 - See `DATA_UPDATE_GUIDE.md` for complete documentation

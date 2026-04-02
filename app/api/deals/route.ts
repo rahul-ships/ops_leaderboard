@@ -1,5 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { parseCSVData } from '@/lib/csv-parser';
+import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
 
 /**
  * GET /api/deals
@@ -22,6 +24,101 @@ export async function GET() {
     return NextResponse.json(
       {
         error: 'Failed to load deals data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/deals
+ * Upload and save a new CSV file to replace the current deals data
+ *
+ * Accepts: multipart/form-data with 'file' field containing CSV
+ *
+ * Response format:
+ * {
+ *   success: boolean,
+ *   stats?: { advisors: number, deals: number },
+ *   error?: string
+ * }
+ */
+export async function POST(request: NextRequest) {
+  try {
+    // Parse form data
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
+
+    // Validate file exists
+    if (!file) {
+      return NextResponse.json(
+        { success: false, error: 'No file provided' },
+        { status: 400 }
+      );
+    }
+
+    // Validate file type
+    if (!file.name.endsWith('.csv')) {
+      return NextResponse.json(
+        { success: false, error: 'File must be a CSV' },
+        { status: 400 }
+      );
+    }
+
+    // Validate file size (10MB max)
+    const MAX_SIZE = 10 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      return NextResponse.json(
+        { success: false, error: 'File size must be less than 10MB' },
+        { status: 400 }
+      );
+    }
+
+    // Read file content
+    const csvContent = await file.text();
+
+    // Validate CSV content is not empty
+    if (!csvContent || !csvContent.trim()) {
+      return NextResponse.json(
+        { success: false, error: 'CSV file is empty' },
+        { status: 400 }
+      );
+    }
+
+    // Save to data/deals.csv
+    const csvPath = join(process.cwd(), 'data', 'deals.csv');
+
+    // Ensure data directory exists
+    const dataDir = dirname(csvPath);
+    if (!existsSync(dataDir)) {
+      mkdirSync(dataDir, { recursive: true });
+      console.log('[CSV Upload] Created data directory:', dataDir);
+    }
+
+    writeFileSync(csvPath, csvContent, 'utf-8');
+
+    console.log('[CSV Upload] Successfully saved file to:', csvPath);
+
+    // Parse the new data to validate and get stats
+    const { NM, RW } = await parseCSVData();
+
+    return NextResponse.json({
+      success: true,
+      stats: {
+        advisors: NM.length,
+        deals: RW.length,
+      },
+      message: 'CSV uploaded successfully'
+    });
+
+  } catch (error) {
+    console.error('[CSV Upload] Error:', error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Failed to upload CSV',
         message: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }
