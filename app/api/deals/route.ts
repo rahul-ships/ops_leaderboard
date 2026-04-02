@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { parseCSVData, parseCSVFromContent } from '@/lib/csv-parser';
 import { Redis } from '@upstash/redis';
 
@@ -131,6 +132,15 @@ export async function POST(request: NextRequest) {
     // Parse the new data to validate and get stats
     const { NM, RW } = await parseCSVFromContent(csvContent);
 
+    // Revalidate the cache so the new data is immediately available
+    try {
+      revalidatePath('/', 'layout'); // Revalidate the entire app
+      console.log('[CSV Upload] Cache revalidated');
+    } catch (revalError) {
+      console.warn('[CSV Upload] Failed to revalidate cache:', revalError);
+      // Continue anyway - data is saved to Redis
+    }
+
     return NextResponse.json({
       success: true,
       stats: {
@@ -154,6 +164,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Revalidate every 5 minutes (300 seconds)
-// This caches the parsed data and reduces CSV parsing overhead
-export const revalidate = 300;
+// Dynamic route - no caching
+// Since we're reading from Redis (which is fast) and want fresh data after uploads,
+// we disable static caching to ensure users always get the latest data
+export const dynamic = 'force-dynamic';
