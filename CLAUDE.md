@@ -40,16 +40,16 @@ pnpm lint             # Run ESLint
 
 ### Data Flow
 
-**Current Architecture (Server-side with Upload):**
+**Current Architecture (Redis + Server-side):**
 
-1. **CSV File** (`data/deals.csv`) → Server-side parsing → **API Response** (`/api/deals`)
+1. **CSV Data** (Redis in prod / `data/deals.csv` in dev) → Server-side parsing → **API Response** (`/api/deals`)
 2. **Server-side render** (`app/page.tsx`) reads data directly → **Client** receives initial data
-3. **CSV Upload** → POST to `/api/deals` → Saves to server → Page reload → New data displayed
+3. **CSV Upload** → POST to `/api/deals` → Saves to Redis → Page reload → New data displayed
 
 **API Endpoints:**
 
 **GET `/api/deals`**
-- Reads CSV from `data/deals.csv`
+- Reads CSV from **Redis (production)** or `data/deals.csv` (local dev)
 - Parses using `lib/csv-parser.ts`
 - Returns JSON with two arrays:
   - `NM`: Array of advisor names (sorted alphabetically)
@@ -59,9 +59,10 @@ pnpm lint             # Run ESLint
 **POST `/api/deals`**
 - Accepts `multipart/form-data` with CSV file
 - Validates file type (.csv), size (max 10MB), and content
-- Saves to `data/deals.csv` on server (creates data directory if needed)
+- Saves to **Upstash Redis** (serverless-compatible storage)
 - Parses and returns stats (advisors count, deals count)
 - **All users see updated data** after page refresh
+- Works in serverless environments (Vercel) where file system is read-only
 
 **Dashboard Processing:**
 - Main dashboard (`app/page.tsx`) uses server-side rendering to fetch data
@@ -77,10 +78,10 @@ pnpm lint             # Run ESLint
 1. User clicks "Upload CSV" in sidebar
 2. Selects CSV file from device
 3. Client sends file via POST to `/api/deals`
-4. Server validates, saves to `data/deals.csv`
+4. Server validates, saves to **Redis** (key: `deals_csv_content`)
 5. Server parses and returns success with stats
 6. Client reloads page
-7. **All devices now see the new data** (server-side persistence)
+7. **All devices now see the new data** (Redis persistence, works in serverless)
 
 **Legacy Files (No Longer Used):**
 - `scripts/convert-csv-to-data.py` - Old Python conversion script (kept for reference)
@@ -156,21 +157,27 @@ To update the leaderboard data:
 **How It Works:**
 1. **Upload:** POST endpoint (`/api/deals`) receives CSV file via FormData
 2. **Validation:** Checks file type, size, and content
-3. **Save:** Writes to `data/deals.csv` on server (creates directory if needed)
-4. **Parse:** CSV parser (`lib/csv-parser.ts`) processes the file:
+3. **Save:** Writes to **Upstash Redis** (key: `deals_csv_content`) - serverless-compatible
+4. **Parse:** CSV parser (`lib/csv-parser.ts`) processes the content:
    - Extracts unique advisor names into the `NM` array
    - Converts deal records into compact format with date offsets from base date (April 1, 2025)
    - Maps stage names to single-letter status codes
 5. **Response:** Returns success with advisor/deal counts
 6. **Reload:** Client refreshes to load new server-side data
-7. **Persistence:** All users now see the new data (server-side file updated)
+7. **Persistence:** All users now see the new data (Redis storage, works in serverless)
+
+**Storage:**
+- **Production (Vercel):** CSV content stored in Upstash Redis
+- **Local Development:** Falls back to `data/deals.csv` file if Redis unavailable
+- **Why Redis?** Vercel serverless functions have read-only file systems
 
 **Important Notes:**
-- ✅ **Data persists on the server** - all users see the same data
+- ✅ **Data persists in Redis** - all users see the same data
 - ✅ **Multi-device sync** - upload from one device, see on all devices
-- The CSV file is tracked in git (not ignored) for deployment
+- ✅ **Serverless-compatible** - works on Vercel with read-only file system
+- The CSV file in git (`data/deals.csv`) is used as fallback for local dev
+- Redis key: `deals_csv_content` (uses same Upstash instance as bookings)
 - Server-side cache revalidates every 5 minutes
-- For immediate updates during development, restart the dev server
 - See `DATA_UPDATE_GUIDE.md` for complete documentation
 
 **Legacy Workflow (No Longer Used):**
