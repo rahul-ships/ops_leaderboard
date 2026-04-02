@@ -146,7 +146,7 @@ function convColor(cr) {
   return {bg: "#FF6B6B22", c: "#FF6B6B"};
 }
 
-function calcMetrics(deals, fm, fq, fy, tests, bkMode, currentFYQuarters) {
+function calcMetrics(deals, fm, fq, fy, tests, bkMode, currentFYQuarters, lastFYQuarters) {
   var f = deals;
   var fmFilter = fm, fqFilter = fq, fyFilter = fy;
 
@@ -157,6 +157,15 @@ function calcMetrics(deals, fm, fq, fy, tests, bkMode, currentFYQuarters) {
       if (!currentFYQuarters || !d.q) return false;
       for (var i = 0; i < currentFYQuarters.length; i++) {
         if (d.q === currentFYQuarters[i]) return true;
+      }
+      return false;
+    });
+  }
+  else if (fq === "lastfy") {
+    f = f.filter(function(d) {
+      if (!lastFYQuarters || !d.q) return false;
+      for (var i = 0; i < lastFYQuarters.length; i++) {
+        if (d.q === lastFYQuarters[i]) return true;
       }
       return false;
     });
@@ -186,6 +195,17 @@ function calcMetrics(deals, fm, fq, fy, tests, bkMode, currentFYQuarters) {
             if (currentFYQuarters && d.bq) {
               for (var qi = 0; qi < currentFYQuarters.length; qi++) {
                 if (d.bq === currentFYQuarters[qi]) {
+                  bkMatch = true;
+                  break;
+                }
+              }
+            }
+          }
+          else if (fqFilter === "lastfy") {
+            bkMatch = false;
+            if (lastFYQuarters && d.bq) {
+              for (var qi = 0; qi < lastFYQuarters.length; qi++) {
+                if (d.bq === lastFYQuarters[qi]) {
                   bkMatch = true;
                   break;
                 }
@@ -223,6 +243,17 @@ function calcMetrics(deals, fm, fq, fy, tests, bkMode, currentFYQuarters) {
             if (currentFYQuarters && d.bq) {
               for (var qj = 0; qj < currentFYQuarters.length; qj++) {
                 if (d.bq === currentFYQuarters[qj]) {
+                  bkMP = true;
+                  break;
+                }
+              }
+            }
+          }
+          else if (fqFilter === "lastfy") {
+            bkMP = false;
+            if (lastFYQuarters && d.bq) {
+              for (var qj = 0; qj < lastFYQuarters.length; qj++) {
+                if (d.bq === lastFYQuarters[qj]) {
                   bkMP = true;
                   break;
                 }
@@ -661,8 +692,18 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
     var nextYearShort = String(fyStart + 1).slice(2);
     return ["AMJ'" + yearShort, "JAS'" + yearShort, "OND'" + yearShort, "JFM'" + nextYearShort];
   }, []);
+  var lastFYQuarters = useMemo(function(){
+    var now = new Date();
+    var month = now.getMonth() + 1;
+    var year = now.getFullYear();
+    var fyStart = month >= 4 ? year : year - 1;
+    var lastFYStart = fyStart - 1;
+    var yearShort = String(lastFYStart).slice(2);
+    var nextYearShort = String(lastFYStart + 1).slice(2);
+    return ["AMJ'" + yearShort, "JAS'" + yearShort, "OND'" + yearShort, "JFM'" + nextYearShort];
+  }, []);
   var years = useMemo(function(){return Array.from(new Set(deals.map(function(d){return d.yr}).filter(Boolean))).sort()}, [deals]);
-  var met = useMemo(function(){return calcMetrics(deals,fm,fq,fy,tests,bkMode,currentFYQuarters)}, [deals,fm,fq,fy,tests,bkMode,currentFYQuarters]);
+  var met = useMemo(function(){return calcMetrics(deals,fm,fq,fy,tests,bkMode,currentFYQuarters,lastFYQuarters)}, [deals,fm,fq,fy,tests,bkMode,currentFYQuarters,lastFYQuarters]);
   var allN = useMemo(function(){return Array.from(new Set(met.adv.map(function(a){return a.name}).concat(met.ma.map(function(m){return m.name})))).sort()}, [met]);
   var allP = useMemo(function(){
     var c = met.adv.concat(met.ma);
@@ -694,7 +735,7 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
   var fd = met.fd;
   var teamFun = useMemo(function(){return calcFunnel(fd)}, [fd]);
   var combos = useMemo(function(){return calcCombos(fd)}, [fd]);
-  var teamBk = bkMode==="cohort" ? fd.filter(function(d){return isBk(d.st)}).length : deals.filter(function(d){if(!isBk(d.st)||!d.bm)return false;if(fm&&fm!=="all")return d.bm===fm;if(fq==="currentfy"){if(!currentFYQuarters||!d.bq)return false;for(var i=0;i<currentFYQuarters.length;i++){if(d.bq===currentFYQuarters[i])return true}return false}if(fq&&fq!=="all")return d.bq===fq&&(fy==="all"||d.byr===fy);if(fy&&fy!=="all")return d.byr===fy;return true}).length;
+  var teamBk = bkMode==="cohort" ? fd.filter(function(d){return isBk(d.st)}).length : deals.filter(function(d){if(!isBk(d.st)||!d.bm)return false;if(fm&&fm!=="all")return d.bm===fm;if(fq==="currentfy"){if(!currentFYQuarters||!d.bq)return false;for(var i=0;i<currentFYQuarters.length;i++){if(d.bq===currentFYQuarters[i])return true}return false}if(fq==="lastfy"){if(!lastFYQuarters||!d.bq)return false;for(var i=0;i<lastFYQuarters.length;i++){if(d.bq===lastFYQuarters[i])return true}return false}if(fq&&fq!=="all")return d.bq===fq&&(fy==="all"||d.byr===fy);if(fy&&fy!=="all")return d.byr===fy;return true}).length;
   var maxBk = allP.length ? Math.max.apply(null, allP.map(function(p){return p.bk})) : 1;
   var maxTst = allP.length ? Math.max.apply(null, allP.map(function(p){return p.tst || 0})) : 1;
 
@@ -744,7 +785,7 @@ function DashboardClient({ initialData }: { initialData: { NM: any[], RW: any[] 
               <button onClick={function(){setBkMode("cohort")}} style={{padding:"5px 10px",fontSize:10,fontWeight:600,border:"none",cursor:"pointer",background:bkMode==="cohort"?C.pu:C.db,color:bkMode==="cohort"?C.wh:C.g4}}>Cohort</button>
             </div>
             <select value={fm} onChange={function(e){setFM(e.target.value);if(e.target.value!=="all"){setFQ("all");setFY("all")}}} style={selSt}><option value="all">All Months</option>{months.map(function(m){return <option key={m} value={m}>{ml(m)}</option>})}</select>
-            <select value={fq} onChange={function(e){setFQ(e.target.value);if(e.target.value!=="all")setFM("all")}} style={selSt}><option value="all">All Qtrs</option><option value="currentfy">Current FY</option>{quarters.map(function(q){return <option key={q} value={q}>{q}</option>})}</select>
+            <select value={fq} onChange={function(e){setFQ(e.target.value);if(e.target.value!=="all")setFM("all")}} style={selSt}><option value="all">All Qtrs</option><option value="currentfy">Current FY</option><option value="lastfy">Last FY</option>{quarters.map(function(q){return <option key={q} value={q}>{q}</option>})}</select>
             {view==="team"&&<select value={ft} onChange={function(e){setFT(e.target.value)}} style={selSt}><option value="all">All</option><option value="advisor">Advisors</option><option value="market_advisor">Market Advisors</option></select>}
           </div>}
         </div>
